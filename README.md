@@ -1,6 +1,6 @@
 ### Description
 
-The following repository contains all the scripts, tools and etc about tools I use to manage my Homelabs.
+The following repository contains all the scripts, tools and tools I use to manage my Homelabs.
 
 ##### Beware 
 
