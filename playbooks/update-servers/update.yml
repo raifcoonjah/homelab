@@ -1,7 +1,6 @@
 ---
-- name: Update server
-  hosts: mars
-  remote_user: root
+- name: Update servers
+  hosts: all
 
   tasks:
     - name: "apt-get update"
@@ -17,7 +16,14 @@
     - name: Remove orphane depedencies
       apt:
         autoremove: yes
-#    - name: Update gravity list
-#      shell: docker exec -it bc1da258ea1f bash -c "pihole -g"
-#      ignore_errors: yes
-    
+
+- name: DNS Updates
+  hosts: pihole
+
+  tasks: 
+    - name: Update pihole gravity list
+      command: pihole -g
+    - name: Check for pihole Updates
+      command: pihole -up
+    - name: Restart DNS
+      command: pihole restartdns
