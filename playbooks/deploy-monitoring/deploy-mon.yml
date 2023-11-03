@@ -6,12 +6,12 @@
   tasks:
     - name: Copy monitoring folder
       copy:
-        src: /mnt/HDD2/Development/Homelab/playbooks/deploy-monitoring/
+        src: "mars-automations"
         dest: /usr/local/
         owner: root
         group: root
 
     - name: Load crontab from backup
-      command: crontab /usr/local/mars-automations/scripts/crontab.backup
+      command: crontab /usr/local/mars-automations/scripts/crontab.backup # Default path
 
       
