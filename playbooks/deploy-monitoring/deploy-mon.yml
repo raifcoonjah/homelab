@@ -1,0 +1,17 @@
+---
+- name: Deploying mon
+  hosts: physical
+  remote_user: root
+
+  tasks:
+    - name: Copy monitoring folder
+      copy:
+        src: /mnt/HDD2/Development/Homelab/playbooks/deploy-monitoring/
+        dest: /usr/local/
+        owner: root
+        group: root
+
+    - name: Load crontab from backup
+      command: crontab /usr/local/mars-automations/scripts/crontab.backup
+
+      

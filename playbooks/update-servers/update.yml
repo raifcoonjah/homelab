@@ -1,0 +1,23 @@
+---
+- name: Update server
+  hosts: mars
+  remote_user: root
+
+  tasks:
+    - name: "apt-get update"
+      apt:
+        update_cache: yes
+    - name: Peform package upgrade
+      apt:
+        name: "*"
+        state: latest
+    - name: Remove useless packages from cache
+      apt:
+        autoclean: yes
+    - name: Remove orphane depedencies
+      apt:
+        autoremove: yes
+#    - name: Update gravity list
+#      shell: docker exec -it bc1da258ea1f bash -c "pihole -g"
+#      ignore_errors: yes
+    
