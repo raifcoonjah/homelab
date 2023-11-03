@@ -20,7 +20,7 @@
 - name: DNS Updates
   hosts: pihole
 
-  tasks: 
+  tasks:
     - name: Update pihole gravity list
       command: pihole -g
     - name: Check for pihole Updates

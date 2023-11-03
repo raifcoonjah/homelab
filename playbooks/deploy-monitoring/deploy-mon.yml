@@ -13,5 +13,3 @@
 
     - name: Load crontab from backup
       command: crontab /usr/local/mars-automations/scripts/crontab.backup # Default path
-
-      
