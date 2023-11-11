@@ -31,15 +31,11 @@ if [[ $? -ne 0 ]]; then
     if [[ $i -eq $nc_fail_threshold ]]; then
         echo "(spider)Pi-hole server is not responding. Beginning fallback procedure: Starting VM$VMID connection will be restablished in a few seconds..."
         qm start $VMID
-        # Send Discord notification
-        curl -X POST https://discordapp.com/api/webhooks/1172999774929162414/mHs-J7h5yLGnqUk7rwbI_QgufUFraaQtwInrkjog66HIAEq8G2rbDeqJSFCCl7ZmeYAa -H "Content-Type: application/json" -d '{
-            "content": "(spider)Pi-hole server is not responding. Beginning fallback procedure: Starting VM$VMID connection will be restablished in a few seconds..."
-        }'
     else
         echo "Spider is in normal state. [ignore]"
     fi
 else
-    echo "Spider ERROR!"
+    echo "Spider is well and alive!"
 fi
 
 # Once the nc command starts responding again, stop the VM
@@ -47,8 +43,5 @@ nc -vz -w 5 $spider_ip 10022
 if [[ $? -eq 0 ]]; then
     echo "(spider)Pi-hole appears to be alive again, undoing fallback procedure. Connection resume in a few seconds."
     qm stop $VMID
-    # Send Discord notification
-    curl -X POST https://discordapp.com/api/webhooks/1172999774929162414/mHs-J7h5yLGnqUk7rwbI_QgufUFraaQtwInrkjog66HIAEq8G2rbDeqJSFCCl7ZmeYAa -H "Content-Type: application/json" -d '{
-        "content": "(spider)Pi-hole appears to be alive again, undoing fallback procedure. Connection resume in a few seconds!"
-    }'
+    exit 1
 fi

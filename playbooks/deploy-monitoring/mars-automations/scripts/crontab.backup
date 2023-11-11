@@ -34,3 +34,6 @@
 
 # Restart - Pihole
 0 4 15 * * pihole restartdns >> /var/log/pihole-restartdns.log 2>&1
+
+# Fallback-procedure
+*/3 * * * * /usr/local/mars-automations/scripts/fall-back.sh
