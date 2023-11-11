@@ -31,3 +31,6 @@
 
 # Monitoring - High load
 0 0 * * 6 /usr/local/mars-automations/scripts/high_load.sh
+
+# Restart - Pihole
+0 4 15 * * pihole restartdns >> /var/log/pihole-restartdns.log 2>&1
