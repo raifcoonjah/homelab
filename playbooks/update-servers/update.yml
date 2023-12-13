@@ -16,14 +16,3 @@
     - name: Remove orphane depedencies
       apt:
         autoremove: yes
-
-- name: DNS Updates
-  hosts: pihole
-
-  tasks:
-    - name: Update pihole gravity list
-      command: pihole -g
-    - name: Check for pihole Updates
-      command: pihole -up
-    - name: Restart DNS
-      command: pihole restartdns
