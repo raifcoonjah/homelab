@@ -1,0 +1,24 @@
+name: Pull changes locally
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch as needed
+      - work/code-deployments
+      - work/raifcoonjah
+
+jobs:
+  ansible-pull:
+    runs-on: self-hosted  # Use the self-hosted runner
+
+    steps:
+      - name: Check if ansible is installed
+        run: ansible --version
+      - name: Pull codebase locally
+        run: |
+          cd /home/raif/homelab
+          git pull
+          git checkout work/raifcoonjah
+          git pull
+          git checkout work/code-deployments
+          git pull
