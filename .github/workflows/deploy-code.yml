@@ -17,7 +17,7 @@ jobs:
       - name: Pull codebase locally
         run: |
           cd /home/raif/homelab
-          git checkout maste
+          git checkout master
           git pull
           git checkout work/raifcoonjah
           git pull
