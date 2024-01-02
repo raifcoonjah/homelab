@@ -8,7 +8,7 @@ on:
       - work/raifcoonjah
 
 jobs:
-  ansible-pull:
+  deploycodebase:
     runs-on: self-hosted  # Use the self-hosted runner
 
     steps:
@@ -17,6 +17,7 @@ jobs:
       - name: Pull codebase locally
         run: |
           cd /home/raif/homelab
+          git checkout main
           git pull
           git checkout work/raifcoonjah
           git pull
