@@ -3,7 +3,7 @@ name: Pull changes locally
 on:
   push:
     branches:
-      - main  # Adjust the branch as needed
+      - master  # Adjust the branch as needed
       - work/code-deployments
       - work/raifcoonjah
 
@@ -17,7 +17,7 @@ jobs:
       - name: Pull codebase locally
         run: |
           cd /home/raif/homelab
-          git checkout main
+          git checkout maste
           git pull
           git checkout work/raifcoonjah
           git pull
