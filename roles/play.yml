@@ -1,0 +1,6 @@
+---
+- name: Install Deploy monitoring
+  hosts: localhost
+  
+  roles:
+  - deploy-monitoring
