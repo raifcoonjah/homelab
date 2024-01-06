@@ -6,6 +6,7 @@ on:
       - master  # Adjust the branch as needed
       - work/code-deployments
       - work/raifcoonjah
+      - work/update-host # temp
 
 jobs:
   deploycodebase:
