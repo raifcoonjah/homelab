@@ -2,8 +2,11 @@ name: Pull changes locally
 
 on:
   push:
-    branches:
-      - '*'
+    branches: # TODO: Include only master use another workflow for testing purposes
+      - master
+      - work/code-deployments
+      - work/raifcoonjah
+      - work/update-host
 
 jobs:
   deploycodebase:
