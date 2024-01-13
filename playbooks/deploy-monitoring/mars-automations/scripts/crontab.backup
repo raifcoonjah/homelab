@@ -32,8 +32,5 @@
 # Monitoring - High load
 0 0 * * 6 /usr/local/mars-automations/scripts/high_load.sh
 
-# Restart - Pihole
-0 4 15 * * pihole restartdns >> /var/log/pihole-restartdns.log 2>&1
-
-# Fallback-procedure
-*/3 * * * * /usr/local/mars-automations/scripts/fall-back.sh
+# Pihole VM - Backup
+15 4 * * 6 /usr/local/mars-automations/scripts/vm-backup.sh
