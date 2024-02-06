@@ -3,16 +3,16 @@
   hosts: all
 
   tasks:
-    - name: "apt-get update"
+    - name: Apt update
       apt:
-        update_cache: yes
+        update_cache: true
     - name: Peform package upgrade
       apt:
         name: "*"
         state: latest
     - name: Remove useless packages from cache
       apt:
-        autoclean: yes
+        autoclean: true
     - name: Remove orphane depedencies
       apt:
-        autoremove: yes
+        autoremove: true
