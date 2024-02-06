@@ -1,0 +1,20 @@
+name: Pull changes locally
+
+on:
+  push:
+    branches: # TODO: Include only master use another workflow for testing purposes
+      - master
+      - work/code-deployments
+      - work/raifcoonjah
+      - work/update-host
+
+jobs:
+  deploycodebase:
+    runs-on: self-hosted  # raif-lab1
+
+    steps:
+      - name: Check if ansible is installed
+        run: ansible --version
+      - name: Pull codebase locally
+        run: |
+          git -C /home/raif/homelab pull
