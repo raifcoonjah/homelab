@@ -1,0 +1,22 @@
+name: Pull Changes Locally
+
+on:
+  push:
+    branches:
+      - master
+      - work/code-deployments
+      - work/raifcoonjah
+      - work/update-host
+
+jobs:
+  deploy_codebase:
+    runs-on: raif-lab # raif-lab1
+
+    steps:
+      - name: Check if Ansible is installed
+        run: ansible --version
+
+      - name: Pull codebase locally
+        run:
+          command: |
+            git -C /home/raif/homelab pull
