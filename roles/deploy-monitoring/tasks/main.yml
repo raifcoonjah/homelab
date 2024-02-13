@@ -1,0 +1,4 @@
+---
+# tasks file for deploy-monitoring
+- name: Copy monitoring
+  import_tasks: cp-monitoring.yml
