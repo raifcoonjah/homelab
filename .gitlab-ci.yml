@@ -1,22 +1,22 @@
-name: Pull Changes Locally
+stages:
+  - check_ansible
+  - deploy_code
 
-on:
-  push:
-    branches:
-      - master
-      - work/code-deployments
-      - work/raifcoonjah
-      - work/update-host
+check_ansible:
+  stage: check_ansible
+  script:
+    - ansible --version
+  tags:
+    - raif-lab
 
-jobs:
-  deploy_codebase:
-    runs-on: raif-lab # raif-lab1
-
-    steps:
-      - name: Check if Ansible is installed
-        run: ansible --version
-
-      - name: Pull codebase locally
-        run:
-          command: |
-            git -C /home/raif/homelab pull
+deploy_code:
+  stage: deploy_code
+  script:
+    - git -C /home/raif/homelab pull
+  tags:
+    - raif-lab
+  only:
+    - master
+    - work/code-deployments
+    - work/raifcoonjah
+    - work/update-host
