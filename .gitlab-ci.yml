@@ -5,7 +5,7 @@ stages:
 check_ansible:
   stage: check_ansible
   script:
-    - ansible --version
+    - /usr/bin/ansible --version
   tags:
     - lin-ez
 
