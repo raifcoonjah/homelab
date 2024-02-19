@@ -1,5 +1,13 @@
 stages:
+  - check_ansible
   - deploy_code
+
+check_ansible:
+  stage: check_ansible
+  script:
+    - ansible --version
+  tags:
+    - raif-lab
 
 deploy_code:
   stage: deploy_code
