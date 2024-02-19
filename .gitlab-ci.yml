@@ -14,7 +14,7 @@ deploy_code:
   script:
     - /usr/bin/git -C /home/raif.coonjah/homelab pull
   tags:
-    - lin-ez
+    - lin-ez #fix
   only:
     - main
     - work/code-deployments
