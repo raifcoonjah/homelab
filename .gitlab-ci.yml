@@ -12,7 +12,7 @@ check_ansible:
 deploy_code:
   stage: deploy_code
   script:
-    - git -C /home/raif/homelab pull
+    - git -C /home/homelab pull
   tags:
     - raif-lab
   only:
