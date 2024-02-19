@@ -1,6 +1,6 @@
 stages:
-  - check_ansible
-  - deploy_code
+  - check_ansible # Check if ansible is installed
+  - deploy_code # deploy codebase
 
 check_ansible:
   stage: check_ansible
