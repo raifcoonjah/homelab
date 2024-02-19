@@ -7,14 +7,14 @@ check_ansible:
   script:
     - ansible --version
   tags:
-    - raif-lab
+    - lin-ez
 
 deploy_code:
   stage: deploy_code
   script:
     - git -C /home/homelab pull
   tags:
-    - raif-lab
+    - lin-ez
   only:
     - main
     - work/code-deployments
