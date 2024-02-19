@@ -16,7 +16,7 @@ deploy_code:
   tags:
     - raif-lab
   only:
-    - master
+    - main
     - work/code-deployments
     - work/raifcoonjah
     - work/update-host
