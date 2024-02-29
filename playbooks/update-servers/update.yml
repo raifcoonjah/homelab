@@ -1,18 +1,18 @@
 ---
-- name: Update servers
+- name: Update Debian
   hosts: all
 
   tasks:
-    - name: Apt update
-      apt:
+    - name: Perform package list update
+      ansible.builtin.apt:
         update_cache: true
     - name: Peform package upgrade
-      apt:
+      ansible.builtin.apt:
         name: "*"
         state: latest
     - name: Remove useless packages from cache
-      apt:
+      ansible.builtin.apt:
         autoclean: true
     - name: Remove orphane depedencies
-      apt:
+      ansible.builtin.apt:
         autoremove: true
