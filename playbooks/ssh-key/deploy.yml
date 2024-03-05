@@ -1,8 +1,6 @@
 ---
 - name: Deploy SSH Keys
   hosts: all
-  vars:
-    - authkey_path: '/root/.ssh'
 
   tasks:
   - name: Backup current authorized_keys file
