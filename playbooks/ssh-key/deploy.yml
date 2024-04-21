@@ -3,15 +3,6 @@
   hosts: all
 
   tasks:
-  - name: Backup current authorized_keys file
-    ansible.builtin.copy:
-       src: '/root/.ssh/authorized_keys'
-       dest: '/root/.ssh/authorized_keys.old'
-       remote_src: yes
-       owner: root
-       group: root
-       mode: '600'
-
   - name: Copy new keys
     ansible.builtin.template:
        src: "./mytemplates/authorized_keys.j2"
@@ -19,4 +10,4 @@
        owner: root
        group: root
        mode: '600'
-
+       backup: true
