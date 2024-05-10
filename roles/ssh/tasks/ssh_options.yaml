@@ -1,0 +1,15 @@
+---
+- name: Enable PublicKey Authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: 'PubkeyAuthentication yes'
+    insertafter: '#MaxSessions 10'
+    create: yes
+    backup: yes
+
+- name: Disable LANG LC_*
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: 'AcceptEnv LANG LC_*'
+    line: '#AcceptEnv LANG LC_*'
+    backup: yes

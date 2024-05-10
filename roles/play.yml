@@ -1,6 +1,8 @@
 ---
-- name: Install Deploy monitoring
-  hosts: localhost
+- name: Provisioning servers
+  hosts: all
+  become: true
   
   roles:
-  - deploy-monitoring
+    - ssh
+    - minimal-packages

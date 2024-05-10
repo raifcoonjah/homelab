@@ -1,0 +1,14 @@
+---
+- name: Copy new keys
+  ansible.builtin.template:
+    src: "./templates/authorized_keys.j2"
+    dest: '{{ authkey_path }}/authorized_keys'
+    owner: root
+    group: root
+    mode: '600'
+    backup: true
+
+- name: Restart ssh service
+  ansible.builtin.systemd_service:
+    name: ssh
+    state: restarted

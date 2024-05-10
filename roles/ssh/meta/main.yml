@@ -1,6 +1,6 @@
 galaxy_info:
   author: Raif Coonjah
-  description: A role developed to deploy my custom monitoring scripts on my homelabs
+  description: A role developed to deploy everything concerning ssh on my homelab
   company: none
 
   # If the issue tracker for your role is not on github, uncomment the

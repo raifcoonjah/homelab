@@ -1,0 +1,7 @@
+---
+- name: Install minimal packages
+  ansible.builtin.apt:
+      name: "{{ item }}"
+      state: present
+  with_items:
+    - "{{ minimal_packages }}"

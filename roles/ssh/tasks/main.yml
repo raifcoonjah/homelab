@@ -1,0 +1,8 @@
+---
+# tasks file for ssh_config
+- name: Import ssh_options.yaml
+  import_tasks: ssh_options.yaml
+- name: Import ssh_keys.yml
+  import_tasks: ssh_keys.yml
+- name: Import ssh_config
+  import_tasks: ssh_config.yml
