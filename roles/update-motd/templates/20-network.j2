@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+#    20-network - generate the network information
+#    Copyright (c) 2014-2015 Erik Hennerfors
+#    Copyright (c) 2013-2014 Nick Charlton
+#    Copyright (c) 2009-2010 Canonical Ltd.
+#
+#    Authors: Erik Hennerfors <erik.hennerfors@obscured.se>
+#			  Nick Charlton <hello@nickcharlton.net>
+#             Dustin Kirkland <kirkland@canonical.com>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+function human_readable {
+        VALUE=$1
+        BIGGIFIERS=( B Kb Mb Gb )
+        CURRENT_BIGGIFIER=0
+        while [ $VALUE -gt 10000 ] ;do
+                VALUE=$(($VALUE/1000))
+                CURRENT_BIGGIFIER=$((CURRENT_BIGGIFIER+1))      
+        done
+        #echo "value: $VALUE"
+        #echo "biggifier: ${BIGGIFIERS[$CURRENT_BIGGIFIER]}"
+        echo "$VALUE${BIGGIFIERS[$CURRENT_BIGGIFIER]}"
+}
+
+system_ip=`ifconfig | awk -F':' '/inet addr/&&!/127.0.0.1/{split($2,_," ");print _[1]}'`
+nic_in=`grep {{ ansible_facts.interfaces }} /proc/net/dev | awk '{print $2}'`
+nic_out=`grep {{ ansible_facts.interfaces }} /proc/net/dev | awk '{print $10}'`
+
+echo
+echo "Network information:"
+printf "System IP:\t%s\n" $system_ip
+printf "Traffic in:\t%s\tTraffic out:\t%s" `human_readable $nic_in` `human_readable $nic_out`
+echo
+echo

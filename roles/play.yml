@@ -1,8 +1,9 @@
 ---
 - name: Provisioning servers
   hosts: all
-  become: true
-  
+
   roles:
-    - ssh
-    - minimal-packages
+    # - ssh
+    # - minimal-packages
+    # - bashrc
+    - update-motd

@@ -1,23 +1,14 @@
 # Configuration
 ForwardAgent yes
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr',arcfour128,arcfour256,arcfour
 
-# Hosts
-Host spider
-    Hostname 192.168.0.22
+# Host list ::
+
+Host spider-prxmx
+    Hostname 192.168.100.22
     User root
-    Port 10022
-    ForwardAgent yes
-Host spider-proxy
-     Hostname 192.168.0.92
-     User root
+    Port 1922
+
 Host pihole
-     HostName 192.168.0.8
+     HostName 192.168.100.8
      User root
-     Port 10022
-Host spider-gn1
-        Hostname 192.168.0.35
-        User root
-Host spider-ansible
-     Hostname 192.168.0.75
-     User root
-     Port 22
