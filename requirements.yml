@@ -1,0 +1,19 @@
+- name: SSH
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: ssh
+
+- name: Minimal Packages
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: minimal_packages
+
+- name: Bashrc
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: bashrc
+
+- name: Update-motd
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: update_motd
