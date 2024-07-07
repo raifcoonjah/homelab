@@ -1,4 +1,0 @@
----
-# tasks file for minimal-packages
-- name: Import minimal packages
-  import_tasks: minimal-packages.yml

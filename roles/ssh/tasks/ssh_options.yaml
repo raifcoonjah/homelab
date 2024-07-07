@@ -1,8 +1,0 @@
----
-- name: Enable PublicKey Authentication
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    line: 'PubkeyAuthentication yes'
-    insertafter: '#MaxSessions 10'
-    create: yes
-    backup: yes
