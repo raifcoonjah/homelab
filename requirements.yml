@@ -1,19 +1,23 @@
-- name: SSH
+- name: ssh
   src: git@gitlab.com:raifcoonjah/homelab.git
   scm: git
   version: ssh
 
-- name: Minimal Packages
+- name: minimal_packages
   src: git@gitlab.com:raifcoonjah/homelab.git
   scm: git
   version: minimal_packages
 
-- name: Bashrc
+- name: bashrc
   src: git@gitlab.com:raifcoonjah/homelab.git
   scm: git
   version: bashrc
 
-- name: Update-motd
+- name: update_motd
   src: git@gitlab.com:raifcoonjah/homelab.git
   scm: git
   version: update_motd
+
+- name: syncthing
+  src: https://github.com/raifcoonjah/syncthing.git
+  version: master
