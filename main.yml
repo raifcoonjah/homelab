@@ -1,0 +1,15 @@
+---
+- name: Server provisioning
+  hosts: all
+
+  roles:
+    - role: ssh
+      tags: ssh
+    - role: minimal_packages
+      tags: minimal_packages
+    - role: bashrc
+      tags: bashrc
+    - role: cron
+      tags: cron
+    - role: syncthing
+      tags: syncthing

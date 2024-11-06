@@ -18,6 +18,11 @@
   scm: git
   version: update_motd
 
+- name: cron
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: cron
+
 - name: syncthing
   src: https://github.com/raifcoonjah/syncthing.git
   version: master
