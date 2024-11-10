@@ -23,6 +23,11 @@
   scm: git
   version: cron
 
+- name: swapfile
+  src: git@gitlab.com:raifcoonjah/homelab.git
+  scm: git
+  version: swapfile
+
 - name: syncthing
   src: https://github.com/raifcoonjah/syncthing.git
   version: master
