@@ -3,18 +3,19 @@ ForwardAgent yes
 User root
 
 Host apollo-router
-     hostname 192.168.100.22
-     port 1922
+        Hostname 192.168.100.22
+        Port 1922
 
 Host h-MU-pi-master
-        hostname 192.168.100.5
-        port 22
-        user root
+        Hostname 192.168.100.5
+        User root
 
 Host h-MU-forgejo-prod
-        hostname 192.168.100.53
-        Port 22
+        Hostname 192.168.100.53
 
 Host h-MU-kraken-slave
-        hostname 192.168.100.11
-        Port 22
+        Hostname 192.168.100.11
+
+Host h-MU-forgejo-runner
+        Hostname 10.10.10.55
+        ProxyJump apollo-router
