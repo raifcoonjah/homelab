@@ -1,0 +1,20 @@
+---
+# tasks file for cron
+- name: Install cron
+  ansible.builtin.package:
+    name: cron
+    state: present
+
+- name: Enable cron service
+  ansible.builtin.systemd_service:
+    name: cron
+    state: started
+    enabled: true
+
+- name: Copy beszel cron
+  ansible.builtin.template:
+    src: beszel.j2
+    dest: /etc/cron.d/beszel
+    owner: root
+    group: root
+    mode: '0644'

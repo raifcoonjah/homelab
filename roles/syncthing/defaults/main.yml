@@ -1,0 +1,3 @@
+---
+syncthing_user: 'syncthing'
+syncthing_candidate: false # (Default)

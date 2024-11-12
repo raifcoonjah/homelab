@@ -1,0 +1,41 @@
+---
+- name: Copy authorized file
+  ansible.builtin.template:
+    src: "authorized_keys.j2"
+    dest: '{{ authkey_path }}/authorized_keys'
+    owner: root
+    group: root
+    mode: '600'
+    backup: true
+
+- name: Copy ssh configuration file
+  ansible.builtin.template:
+    src: "ssh_config.j2"
+    dest: '/etc/ssh/ssh_config.d/apollo-router.conf'
+    owner: root
+    group: root
+    mode: '600'
+    backup: true
+
+- name: Enable ciphers
+  ansible.builtin.blockinfile:
+    path: '/etc/ssh/sshd_config'
+    append_newline: true
+    prepend_newline: true
+    block: |
+      Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+      MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
+      KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+    validate: /usr/sbin/sshd -T -f %s
+
+- name: Decrease MaxAuthTries
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    insertafter: '^#MaxAuthTries 6'
+    line: 'MaxAuthTries 3'
+
+- name: Enforce use of protocol 2
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    insertafter: '^Include /etc/ssh/sshd_config.d/*.conf'
+    line: 'Protocol 2'

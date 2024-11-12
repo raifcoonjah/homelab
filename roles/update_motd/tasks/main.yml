@@ -1,0 +1,41 @@
+---
+
+- name: Create update-motd directory
+  ansible.builtin.file:
+    path: /etc/update-motd.d/
+    state: directory
+
+- name: Copy header
+  ansible.builtin.template:
+    src: 00-header.j2
+    dest: "/etc/update-motd.d/00-header"
+    mode: a+x
+
+- name: Copy sysinfo
+  ansible.builtin.template:
+    src: 10-sysinfo.j2
+    dest: "/etc/update-motd.d/10-sysinfo"
+    mode: a+x
+
+- name: Copy footer
+  ansible.builtin.template:
+    src: 99-footer.j2
+    dest: "/etc/update-motd.d/99-footer"
+    mode: a+x
+
+- name: Remove old motd
+  ansible.builtin.file:
+    path: /etc/motd
+    state: absent
+
+- name: Create /var/run/motd
+  ansible.builtin.file:
+    path: /var/run/motd
+    state: directory
+    mode: a+x
+
+- name: Create symlink
+  ansible.builtin.file:
+    src: "/var/run/motd"
+    dest: "/etc/motd"
+    state: link

@@ -1,0 +1,9 @@
+###########################
+### APOLLO GENERIC CRON ###
+###########################
+
+# Automatically update beszel weekly on FRI
+0 0 * * * root /opt/beszel-agent/beszel-agent update && /usr/bin/systemctl restart beszel-agent
+
+# END OF FILE
+

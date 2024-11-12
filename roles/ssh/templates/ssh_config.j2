@@ -1,0 +1,20 @@
+# SSH Configuration - 2024
+ForwardAgent yes
+User root
+
+Host apollo-router
+     hostname 192.168.100.22
+     port 1922
+
+Host h-MU-pi-master
+        hostname 192.168.100.5
+        port 22
+        user root
+
+Host h-MU-forgejo-prod
+        hostname 192.168.100.53
+        Port 22
+
+Host h-MU-kraken-slave
+        hostname 192.168.100.11
+        Port 22
