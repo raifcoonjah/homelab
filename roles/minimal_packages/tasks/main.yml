@@ -1,4 +1,13 @@
 ---
-# tasks file for minimal-packages
-- name: Import minimal packages
-  import_tasks: minimal-packages.yml
+- name: Install minimal packages
+  ansible.builtin.apt:
+      name: "{{ item }}"
+      state: present
+  with_items:
+    - "{{ minimal_packages }}"
+
+- name: Allow cloudinit root user
+  ansible.builtin.lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: '^disable_root: true'
+    line: "disable_root: false"  

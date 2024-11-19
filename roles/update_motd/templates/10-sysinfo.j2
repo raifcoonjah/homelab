@@ -23,22 +23,13 @@ date=`date`
 load=`cat /proc/loadavg | awk '{print $1}'`
 root_usage=`df -h / | awk '/\// {print $(NF-1)}'`
 memory_usage=`free -m | awk '/Mem/ { printf("%3.1f%%", $3/$2*100) }'`
-memory_free=`free -m | head -n 2 | tail -n 1 | awk {'print $4'}`
+memory_available=`free -h | head -n2 | tail -n 1 | awk '{print $7}'`
 swap_usage=`free -m | awk '/Swap/ { printf("%3.1f%%", $3/$2*100) }'`
 users=`users | wc -w`
 processes=`ps aux | wc -l`
 
-let upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
-let secs=$((${upSeconds}%60))
-let mins=$((${upSeconds}/60%60))
-let hours=$((${upSeconds}/3600%24))
-let days=$((${upSeconds}/86400))
-
-
 echo "System information as of: $date"
-echo
-printf "System load:\t%s\tMemory usage:\t%s (free: %sMb)\n" $load $memory_usage $memory_free
+printf "System load:\t%s\tMemory usage:\t%s (available: %s)\n" $load $memory_usage $memory_available
 printf "Usage on /:\t%s\tSwap usage:\t%s\n" $root_usage $swap_usage
 printf "Local users:\t%s\tProcesses:\t%s\n" $users $processes
-printf "System uptime:\t%d days, %02dh %02dm %02ds" "$days" "$hours" "$mins" "$secs"
 echo
