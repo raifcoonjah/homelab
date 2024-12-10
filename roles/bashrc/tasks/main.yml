@@ -1,6 +1,6 @@
 ---
 
-- name: Copy bashrc template
+- name: Copy bashrc skeleton template
   ansible.builtin.template:
     src: bashrc.j2
     dest: "/root/.bashrc"
