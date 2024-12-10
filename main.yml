@@ -11,11 +11,13 @@
       tags: bashrc
     - role: cron
       tags: cron
-    # - role: syncthing
-    #   tags: syncthing
+    - role: syncthing
+      tags: never, syncthing
     - role: swapfile
       tags: swapfile
     - role: update_motd
       tags: update_motd
     - role: docker
       tags: never, docker
+    - role: reboot
+      tags: reboot
