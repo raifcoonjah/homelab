@@ -21,17 +21,4 @@
       ansible.builtin.apt:
         autoclean: yes
       when: ansible_facts['distribution'] == "Debian"
-    - name: Update beszel monitoring
-      ansible.builtin.shell: "/opt/beszel/beszel update"
-      ignore_errors: true
-    - name: Update beszel agent
-      ansible.builtin.shell: "/opt/beszel-agent/beszel-agent update"
-      ignore_errors: true
-    - name: Restart services
-      ansible.builtin.systemd_service:
-        name: "{{ item }}"
-        state: restarted
-      with_items: 
-          - beszel-agent
-          - beszel-hub
 
