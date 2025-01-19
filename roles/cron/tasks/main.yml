@@ -11,10 +11,37 @@
     state: started
     enabled: true
 
-- name: Copy beszel cron
+- name: Copy generic cron
   ansible.builtin.template:
-    src: beszel.j2
-    dest: /etc/cron.d/beszel
+    src: apollo-generic.j2
+    dest: /etc/cron.d/apollo-generic
     owner: root
     group: root
     mode: '0644'
+
+- name: Copy syncthing specific cron
+  ansible.builtin.template:
+    src: syncthing-cron.j2
+    dest: /etc/cron.d/syncthing-cron
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['syncthing']
+
+- name: Copy proxmu1 specific cron
+  ansible.builtin.template:
+    src: proxmu1-cron.j2
+    dest: /etc/cron.d/proxmu1-cron
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['physical'] and inventory_hostname == 'proxmu1'
+
+- name: Copy whonnik specific cron
+  ansible.builtin.template:
+    src: whonnik-cron.j2
+    dest: /etc/cron.d/whonnik-cron
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['physical'] and inventory_hostname == 'whonnik'

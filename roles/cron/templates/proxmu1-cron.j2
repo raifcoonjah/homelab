@@ -1,0 +1,30 @@
+###########################
+### {{ ansible_facts['hostname'] }} CRON ###
+### {{ ansible_managed }} ###
+###########################
+
+# Automatically update beszel weekly on FRI
+0 0 * * * root /opt/beszel-agent/beszel-agent update && /usr/bin/systemctl restart beszel-agent
+
+# [BACKUP]
+# Several cron to handle backup of different data
+0 0  * * FRI root /usr/local/mars-monitoring/scripts/vmbackup.sh > /var/log/vzdump.log 2>&1
+
+# [SYSTEM]
+# DISK Health
+0 1 * * FRI root /usr/local/mars-monitoring/scripts/disk_health.sh
+
+# END OF FILE
+0 0 * * SAT root find /mnt/data/backup/samba -mtime +7 -delete
+
+
+## Harbour: Automatic VM reboot weekly
+## Managed by Ansible.
+30 5 * * FRI root /usr/sbin/qm shutdown 19205 && sleep 5 && /usr/sbin/qm start 19205 && sleep 5 && ping -c3 192.168.100.5 && curl -d "[Harbour] VM 19205 Rebooted" ntfy.sh/{{ ntfy_token }}
+
+55 5 * * TUE root /usr/sbin/qm shutdown 19211 && sleep 5 && /usr/sbin/qm start 19211 && sleep 10 && ping -c10 192.168.100.11 && curl -d "[Harbour] VM 19211 Rebooted" ntfy.sh/{{ ntfy_token }}
+
+
+
+
+# END OF FILE

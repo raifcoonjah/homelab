@@ -1,0 +1,16 @@
+###########################
+### {{ ansible_facts['hostname'] }} CRON ###
+### {{ ansible_managed }} ###
+###########################
+
+# Automatically compress images inside samba shared
+*/2 * * * * root /etc/mars-monitoring/scripts/compress-image.sh
+
+# Automatically compress pdf to save space
+*/5 * * * * root /etc/mars-monitoring/scripts/compress-pdf.sh
+
+# [SAMBA SHARE] Backup
+# todo: replace with borg instead
+0 4 * * TUE root /etc/mars-monitoring/scripts/samba-backup.sh
+0 4 * * THU root /etc/mars-monitoring/scripts/samba-backup.sh
+0 4 * * SUN root /etc/mars-monitoring/scripts/samba-backup.sh
