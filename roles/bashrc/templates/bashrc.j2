@@ -7,7 +7,8 @@
 
 # Note: PS1 and umask are already set in /etc/profile. You should not
 # need this unless you want different defaults for root.
-PS1='\[\033[1;36m\]\u\[\033[1;31m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;31m\]\$\[\033[0m\] '
+# This attemps to replicate what Opensuse does with the PS1 prompt.
+PS1='\[\e[31m\]\h:\w # \[\e[0m\]'
 
 # Export editor
 # This option will ensure vim is always the editor
