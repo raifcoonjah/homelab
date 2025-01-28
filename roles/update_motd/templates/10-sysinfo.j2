@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 #    10-sysinfo - generate the system information
 #    Copyright (c) 2013 Nick Charlton
@@ -21,12 +21,12 @@
 #    MA 02110-1301, USA.
 
 # Display system information
-------------------------------
-echo "Welcome to $(hostname)"
-echo "Kernel: $(uname -r)"
-echo "Uptime: $(uptime -p)"
-echo "Load: $(uptime | awk -F'load average:' '{ print $2 }')"
-echo "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')"
-echo "Swap: $(free -h | grep Swap | awk '{print $3 "/" $2}')"
-echo "Disk: $(df -h / | grep / | awk '{ print $3 "/" $2 }')"
--------------------------------
+printf "------------------------------------\n"
+printf "Welcome to $(hostname)"
+printf "Kernel: $(uname -r)"
+printf "Uptime: $(uptime -p)"
+printf "Load: $(uptime | awk -F'load average:' '{ print $2 }')"
+printf "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')"
+printf "Swap: $(free -h | grep Swap | awk '{print $3 "/" $2}')"
+printf "Disk: $(df -h / | grep / | awk '{ print $3 "/" $2 }')"
+printf "------------------------------------\n"
