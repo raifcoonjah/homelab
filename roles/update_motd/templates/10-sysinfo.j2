@@ -21,12 +21,12 @@
 #    MA 02110-1301, USA.
 
 # Display system information
-printf "------------------------------------\n"
-printf "Welcome to $(hostname)"
-printf "Kernel: $(uname -r)"
-printf "Uptime: $(uptime -p)"
-printf "Load: $(uptime | awk -F'load average:' '{ print $2 }')"
-printf "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')"
-printf "Swap: $(free -h | grep Swap | awk '{print $3 "/" $2}')"
-printf "Disk: $(df -h / | grep / | awk '{ print $3 "/" $2 }')"
-printf "------------------------------------\n"
+echo "---------------------------------------------------"
+printf "Welcome to $(hostname)\n"
+printf "Kernel: $(uname -r)\n"
+printf "Uptime: $(uptime -p)\n"
+printf "Load: $(uptime | awk -F'load average:' '{ print $2 }')\n"
+printf "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')\n"
+printf "Swap: $(free -h | grep Swap | awk '{print $3 "/" $2}')\n"
+printf "Disk: $(df -h / | grep / | awk '{ print $3 "/" $2 }')\n"
+echo "---------------------------------------------------"
