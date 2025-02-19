@@ -8,7 +8,7 @@ Homelab specs:
 
 ```shell
 CPU: i3 8100 (4c/4t)
-RAM: 32GB DDR4
+RAM: 16GB DDR4
 DISK: 128gb SSD + 1TB HDD
 ```
 
