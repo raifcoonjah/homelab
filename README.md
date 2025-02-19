@@ -9,13 +9,13 @@ Homelab specs:
 ```shell
 CPU: i3 8100 (4c/4t)
 RAM: 32GB DDR4
-DISK: 128gb SSD + 500gb HDD
+DISK: 128gb SSD + 1TB HDD
 ```
 
-**apollo-router (KO)**:
+**whonnik**:
 
 ```shell
-CPU: Some intel pentium
+CPU: Intel(R) Celeron(R) 2957U @ 1.40GHz
 RAM: 4gb
 DISK: 128gb SSD 
 ```
