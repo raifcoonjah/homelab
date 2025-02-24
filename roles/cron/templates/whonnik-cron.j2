@@ -14,3 +14,9 @@
 0 4 * * TUE root /etc/mars-monitoring/scripts/samba-backup.sh
 0 4 * * THU root /etc/mars-monitoring/scripts/samba-backup.sh
 0 4 * * SUN root /etc/mars-monitoring/scripts/samba-backup.sh
+
+## [Docker] Automatically update nginx proxy manager
+0 4 * * * root cd /etc/network-stack/npm && docker compose pull && docker compose up -d
+
+## [Docker] Automatically update samba
+30 4 * * * root cd /opt/stacks/samba && docker compose pull && docker compose up -d
