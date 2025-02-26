@@ -1,29 +1,38 @@
 ###########################
-### {{ ansible_facts['hostname'] }} CRON ###
+### {{ ansible_facts['hostname'] }} ###
 ### {{ ansible_managed }} ###
 ###########################
 
 # Automatically update beszel weekly on FRI
 0 0 * * * root /opt/beszel-agent/beszel-agent update && /usr/bin/systemctl restart beszel-agent
 
-# [BACKUP]
-# Several cron to handle backup of different data
+# VM Backup
 0 0  * * FRI root /usr/local/mars-monitoring/scripts/vmbackup.sh > /var/log/vzdump.log 2>&1
 
 # [SYSTEM]
 # DISK Health
 0 1 * * FRI root /usr/local/mars-monitoring/scripts/disk_health.sh
 
-# END OF FILE
+# Delete older samba backup
 0 0 * * SAT root find /mnt/data/backup/samba -mtime +7 -delete
 
+### PWRZ ###
+# Automatically stop/start/restart specific VMs, similar to AWS
 
-#### HABOUR - Automatic Reboot ####
-# Automatically reboot VMs on specific days
-30 5 * * FRI root /usr/sbin/qm shutdown 19205 && sleep 5 && /usr/sbin/qm start 19205 && sleep 5 && ping -c3 192.168.100.5 && curl -d "[Harbour] VM 19205 Rebooted" ntfy.sh/WvzCiAIJMlj7fPaL
+# PIHOLE VM - Restart At 05:30 on Friday
+30 5 * * FRI root /usr/sbin/qm shutdown 19205 && sleep 5 && /usr/sbin/qm start 19205 && sleep 5 && ping -c3 192.168.100.5 && curl -d "[PWRZ] VM 19205 Rebooted" ntfy.sh/WvzCiAIJMlj7fPaL
 
-55 5 * * SAT root /usr/sbin/qm shutdown 19211 && sleep 5 && /usr/sbin/qm start 19211 && sleep 10 && ping -c10 192.168.100.11 && curl -d "[Harbour] VM 19211 Rebooted" ntfy.sh/WvzCiAIJMlj7fPaL
+# JELLYFIN VM - Restart At 05:30 on SUN
+30 5 * * SUN root /usr/sbin/qm shutdown 192100 && sleep 5 && /usr/sbin/qm start 192100 && sleep 5 && ping -c3 192.168.100.100 && curl -d "[PWRZ] VM 192100 Rebooted" ntfy.sh/WvzCiAIJMlj7fPaL
 
-55 5 * * SUN root /usr/sbin/qm shutdown 19208 && sleep 5 && /usr/sbin/qm start 19208 && sleep 10 && ping -c10 192.168.100.8 && curl -d "[Harbour] VM 19208 Rebooted" ntfy.sh/WvzCiAIJMlj7fPaL
+##### PWRZ - Save Power ######
 
-# END OF FILE
+# SYNCTHING VM 
+35 20 * * * root /usr/sbin/qm shutdown 19211
+30 08 * * * root /usr/sbin/qm start 19211
+
+# IC2 VM 
+00 3 * * * root /usr/sbin/qm shutdown 19208
+30 6 * * * root /usr/sbin/qm start 19208
+
+# END OF FILE 
