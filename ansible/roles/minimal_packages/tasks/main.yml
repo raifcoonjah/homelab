@@ -1,13 +1,24 @@
 ---
 - name: Install minimal packages
   ansible.builtin.apt:
-      name: "{{ item }}"
-      state: present
+    name: "{{ item }}"
+    state: present
   with_items:
     - "{{ minimal_packages }}"
 
 - name: Allow cloudinit root user
   ansible.builtin.lineinfile:
     path: /etc/cloud/cloud.cfg
-    regexp: '^disable_root: true'
-    line: "disable_root: false"  
+    regexp: "^disable_root: true"
+    line: "disable_root: false"
+
+- name: Limit journalctl log size
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: "^SystemMaxUse="
+    line: "SystemMaxUse={{ log_size }}"
+
+- name: Restart journalctl service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: systemd-journald

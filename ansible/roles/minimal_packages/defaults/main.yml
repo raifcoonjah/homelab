@@ -12,3 +12,5 @@ minimal_packages:
   - iptables-persistent
   - netcat-traditional
   - cron
+
+log_size: "75M"
