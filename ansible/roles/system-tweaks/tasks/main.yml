@@ -1,0 +1,26 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Allow cloudinit root user
+  ansible.builtin.lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: "^disable_root: true"
+    line: "disable_root: false"
+    ignore_errors: true # ignore if failure for old machines
+
+- name: Limit journalctl log size
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: "^SystemMaxUse="
+    line: "SystemMaxUse={{ log_size }}"
+
+- name: Copy tweaked sysctl configuration
+  ansible.builtin.template:
+    src: 98-sysctl-tweaks.j2
+    dest: /etc/sysctl.d/98-sysctl-tweaks.conf
+    owner: root
+    group: root
+
+- name: Restart journalctl service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: systemd-journald

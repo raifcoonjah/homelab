@@ -5,6 +5,8 @@
   roles:
     - role: ssh
       tags: ssh
+    - role: system-tweaks
+      tags: system-tweaks
     - role: minimal_packages
       tags: minimal_packages
     - role: bashrc
