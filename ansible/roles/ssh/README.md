@@ -1,7 +1,7 @@
 SSH 
 =========
 
-A role to deploy a authorized_key file and deploy a custom SSH config file. 
+A role to deploy ssh access to the destination, this will deploy a list of users too.
 
 Requirements
 ------------
