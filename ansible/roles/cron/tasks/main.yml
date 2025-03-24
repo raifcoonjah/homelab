@@ -35,7 +35,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: inventory_hostname in groups['physical'] and inventory_hostname == 'proxmu1'
+  when: inventory_hostname in groups['physical'] and inventory_hostname == 'graviton'
 
 - name: Copy whonnik specific cron
   ansible.builtin.template:
