@@ -1,5 +1,0 @@
----
-- name: Unconditionally reboot
-  ansible.builtin.reboot:
-    connect_timeout: 60
-    msg: "Reboot test initialized"

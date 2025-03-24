@@ -1,0 +1,21 @@
+# SSH Configuration - 2025
+# {{ ansible_managed }}
+ForwardAgent yes
+User {{ ssh_master_user }}
+
+Host graviton
+        Hostname 192.168.100.20
+        Port 1922
+
+Host whonnik
+       Hostname 192.168.100.24
+       Port 1922
+
+Host pihole
+     Hostname 192.168.100.5
+
+Host kraken-slave
+     Hostname 192.168.100.11
+
+Host ec2
+     Hostname 192.168.100.8

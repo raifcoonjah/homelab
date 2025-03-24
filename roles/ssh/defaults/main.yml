@@ -1,3 +1,0 @@
----
-# defaults file for ssh_config
-authkey_path: /root/.ssh/

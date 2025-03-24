@@ -1,0 +1,14 @@
+minimal_packages:
+  - byobu
+  - vim
+  - git
+  - curl
+  - wget
+  - sudo
+  - bash-completion
+  - figlet
+  - ncdu
+  - netfilter-persistent
+  - iptables-persistent
+  - netcat-traditional
+  - cron
