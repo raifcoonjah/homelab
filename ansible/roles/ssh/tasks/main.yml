@@ -1,0 +1,65 @@
+---
+- name: Create sysmaster group
+  ansible.builtin.group:
+    name: sysmaster
+    state: present
+
+- name: Create sysmaster sudoers file
+  ansible.builtin.file:
+    path: /etc/sudoers.d/sysmaster
+    state: touch
+
+- name: Add sysmaster to root without passwd
+  ansible.builtin.blockinfile:
+    path: /etc/sudoers.d/sysmaster
+    append_newline: true
+    prepend_newline: true
+    validate: "visudo -cf %s"
+    block: |
+      sysmaster ALL=(ALL) NOPASSWD:ALL
+      %sysmaster ALL=(ALL) NOPASSWD:ALL
+
+- name: Create master user
+  ansible.builtin.user:
+    name: "{{ ssh_master_user }}"
+    comment: "This user was deploy using Ansible. DO NOT modify them manually"
+    create_home: true
+    shell: /bin/bash
+    groups: sysmaster
+    append: true
+
+- name: Create ssh directory
+  ansible.builtin.file:
+    path: "{{ ssh_authkey_path }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy authorized file
+  ansible.builtin.template:
+    src: "authorized_keys.j2"
+    dest: "{{ ssh_authkey_path }}/authorized_keys"
+    owner: "{{ ssh_master_user }}"
+    group: "{{ ssh_master_user }}"
+    mode: "600"
+    backup: true
+
+- name: Copy ssh configuration file
+  ansible.builtin.template:
+    src: "ssh_config.j2"
+    dest: "/etc/ssh/ssh_config.d/homelab.conf"
+    owner: root
+    group: root
+    mode: "600"
+    backup: true
+
+- name: Decrease MaxAuthTries
+  ansible.builtin.lineinfile:
+    path: "/etc/ssh/sshd_config"
+    insertafter: "^#MaxAuthTries 6"
+    line: "MaxAuthTries 3"
+
+- name: Enforce use of protocol 2
+  ansible.builtin.lineinfile:
+    path: "/etc/ssh/sshd_config"
+    insertafter: "^Include /etc/ssh/sshd_config.d/*.conf"
+    line: "Protocol 2"
