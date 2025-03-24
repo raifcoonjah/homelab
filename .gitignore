@@ -1,3 +1,7 @@
 *.vscode
 *.secrets.yml
 *.sh
+*.tfstate
+*.terraform
+*.lock.hcl
+*.ansible

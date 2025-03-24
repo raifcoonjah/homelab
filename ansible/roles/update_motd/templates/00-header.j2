@@ -1,0 +1,15 @@
+#!/bin/sh
+#   Author: Raif Coonjah <raifcoonjah@proton.me>
+#   Date: 2025-03-13
+#   Inspired by: OpenSUSE MOTD
+
+[ -r /etc/lsb-release ] && . /etc/lsb-release
+
+if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
+        # Fall back to using the very slow lsb_release utility
+        DISTRIB_DESCRIPTION=$(lsb_release -s -d)
+fi
+
+figlet -f small $(hostname)
+printf "Have a lot of fun...\n"
+printf "\n"
