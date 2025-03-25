@@ -5,7 +5,7 @@
     path: /etc/cloud/cloud.cfg
     regexp: "^disable_root: true"
     line: "disable_root: false"
-    ignore_errors: true # ignore if failure for old machines
+  ignore_errors: true # ignore if failure for old machines
 
 - name: Limit journalctl log size
   ansible.builtin.lineinfile:
