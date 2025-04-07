@@ -23,3 +23,5 @@
       tags: never, syncthing
     - role: docker
       tags: never, docker
+    - role: backup_proxmox
+      tags: never, backup_proxmox

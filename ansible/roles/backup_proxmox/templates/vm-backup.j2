@@ -1,0 +1,41 @@
+#!/usr/env/bash
+
+set -e
+set -o pipefail
+####################################################################
+### PROXMOX VM BACKUP
+### This script is used to perform daily snapshots of VMs on a Proxmox server.
+### Free to use in your own infrastructure :)
+####################################################################
+
+# vars
+VMIDS=("19211")
+SNAPSHOT_NAME="weekly-backup"
+REMOTE_HOST="root@192.168.100.24"
+REMOTE_DIR="/home/backup/weekly-backup"
+TEMP_DIR="/var/lib/vz/dump"
+VZDUMP_BIN="/usr/bin/vzdump"
+
+for VMID in "${VMIDS[@]}"; do
+    echo "Starting full backup..... Shutting down $VMID..."
+    qm shutdown "$VMID"
+    echo "wait 5"
+    sleep 5
+    SNAPSHOT_FILE="$TEMP_DIR/vzdump-qemu-$VMIDS-$(date +%Y_%m_%d-%H_%M_%S).vma.zst"
+    $VZDUMP_BIN "$VMID" --dumpdir "$TEMP_DIR" --compress zstd
+
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to create snapshot for VM $VMID"
+        continue
+    fi
+
+    rsync -rsvpP -e "ssh -p 1922" "$SNAPSHOT_FILE" "$REMOTE_HOST:$REMOTE_DIR/vzdump-qemu-$VMIDS-$(date +%Y_%m_%d-%H_%M_%S).vma.zst"
+    ssh -p 1922 "$REMOTE_HOST" "find $REMOTE_DIR -name 'vzdump-qemu-$VMIDS*.tar.zst' -type f -exec ls -t {} + | tail -n +2 | xargs rm -f"
+    rm "$SNAPSHOT_FILE"
+
+    echo "Backup complete, starting VM again..."
+    qm start "$VMID"
+
+    echo "Snapshot for VM $VMID taken and backed up to remote host. Old backups cleaned up."
+    curl -d "Snapshot for VM $VMID taken and backed up to remote host. Old backups cleaned up." {{ snapshot_ntfy_channel }}
+done

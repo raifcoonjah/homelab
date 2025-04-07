@@ -1,0 +1,53 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Copy daily snapshot script
+  ansible.builtin.template:
+    src: vm-snapshot.j2
+    dest: "{{ script_path }}/vm-snapshot.sh"
+    owner: root
+    group: root
+    mode: "0770"
+
+- name: Copy weekly backup script
+  ansible.builtin.template:
+    src: vm-backup.j2
+    dest: "{{ script_path }}/vm-backup.sh"
+    owner: root
+    group: root
+    mode: "0770"
+
+- name: Copy snapshot service
+  ansible.builtin.template:
+    src: proxmox-snapshot-service.j2
+    dest: /etc/systemd/system/vm_snapshot.service
+
+- name: Copy snapshot timer
+  ansible.builtin.template:
+    src: proxmox-snapshot-timer.j2
+    dest: /etc/systemd/system/vm_snapshot.timer
+
+- name: Enable snapshot service
+  ansible.builtin.systemd_service:
+    name: vm_snapshot.service
+    enabled: true
+    daemon_reload: true
+    state: started
+  ignore_errors: true # ONLY FOR TEST.. REMOVE BEFORE PROD
+
+- name: Copy backup service
+  ansible.builtin.template:
+    src: proxmox-backup-service.j2
+    dest: /etc/systemd/system/vm_backup.service
+
+- name: Copy snapshot timer
+  ansible.builtin.template:
+    src: proxmox-backup-timer.j2
+    dest: /etc/systemd/system/vm_backup.timer
+
+- name: Enable snapshot service
+  ansible.builtin.systemd_service:
+    name: vm_backup.service
+    enabled: true
+    daemon_reload: true
+    state: started
+  ignore_errors: true # ONLY FOR TEST.. REMOVE BEFORE PROD

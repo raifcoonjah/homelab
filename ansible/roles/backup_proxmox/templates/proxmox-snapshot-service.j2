@@ -1,0 +1,6 @@
+[Unit]
+Description=Proxmox Multi VM Snapshot Service
+
+[Service]
+Type=oneshot
+ExecStart="{{ script_path }}/vm-snapshot.sh"
