@@ -2,5 +2,9 @@
 Description=Proxmox Multi VM Snapshot Service
 
 [Service]
+User=root
 Type=oneshot
 ExecStart="{{ script_path }}/vm-backup.sh"
+
+[Install]
+WantedBy=multi-user.target
