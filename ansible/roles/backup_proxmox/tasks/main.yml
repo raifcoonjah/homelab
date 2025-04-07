@@ -19,12 +19,12 @@
 - name: Copy snapshot service
   ansible.builtin.template:
     src: proxmox-snapshot-service.j2
-    dest: /etc/systemd/system/vm_snapshot.service
+    dest: /lib/systemd/system/vm_snapshot.service
 
 - name: Copy snapshot timer
   ansible.builtin.template:
     src: proxmox-snapshot-timer.j2
-    dest: /etc/systemd/system/vm_snapshot.timer
+    dest: /lib/systemd/system/vm_snapshot.timer
 
 - name: Enable snapshot service
   ansible.builtin.systemd_service:
@@ -37,14 +37,14 @@
 - name: Copy backup service
   ansible.builtin.template:
     src: proxmox-backup-service.j2
-    dest: /etc/systemd/system/vm_backup.service
+    dest: /lib/systemd/system/vm_backup.service
 
-- name: Copy snapshot timer
+- name: Copy backup timer
   ansible.builtin.template:
     src: proxmox-backup-timer.j2
-    dest: /etc/systemd/system/vm_backup.timer
+    dest: /lib/systemd/system/vm_backup.timer
 
-- name: Enable snapshot service
+- name: Enable backup service
   ansible.builtin.systemd_service:
     name: vm_backup.service
     enabled: true

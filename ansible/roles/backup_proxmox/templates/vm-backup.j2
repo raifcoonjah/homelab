@@ -1,41 +1,50 @@
-#!/usr/env/bash
+#!/bin/bash
 
-set -e
-set -o pipefail
+set -eu
+
 ####################################################################
 ### PROXMOX VM BACKUP
-### This script is used to perform daily snapshots of VMs on a Proxmox server.
+### This script is used to perform weekly backup of VMs on a Proxmox server.
 ### Free to use in your own infrastructure :)
 ####################################################################
 
-# vars
-VMIDS=("19211")
-SNAPSHOT_NAME="weekly-backup"
-REMOTE_HOST="root@192.168.100.24"
-REMOTE_DIR="/home/backup/weekly-backup"
-TEMP_DIR="/var/lib/vz/dump"
-VZDUMP_BIN="/usr/bin/vzdump"
+VM_IDS=("19211" "19208")
+DEST_SERVER="192.168.100.24"
+DEST_USER="root"
+DEST_PORT="1922"
+BACKUP_DIR="/var/lib/vz/dump"
+REMOTE_BACKUP_DIR="/home/backup/weekly-backup"
+RETENTION_DAYS=1
 
-for VMID in "${VMIDS[@]}"; do
-    echo "Starting full backup..... Shutting down $VMID..."
-    qm shutdown "$VMID"
-    echo "wait 5"
+echo "Empying backup directory..."
+rm -rf "$BACKUP_DIR"/*
+
+for VM in "${VM_IDS[@]}"; do
+    echo "Starting backup of VM $VM at $(date '+%Y-%m-%d %H:%M:%S')" 
+    echo "Stopping VM $VM..."
+    qm stop $VM
     sleep 5
-    SNAPSHOT_FILE="$TEMP_DIR/vzdump-qemu-$VMIDS-$(date +%Y_%m_%d-%H_%M_%S).vma.zst"
-    $VZDUMP_BIN "$VMID" --dumpdir "$TEMP_DIR" --compress zstd
-
-    if [ $? -ne 0 ]; then
-        echo "Error: Failed to create snapshot for VM $VMID"
-        continue
+    vzdump "$VM" --compress zstd --dumpdir "$BACKUP_DIR"
+    echo "Removing old backups on the destination server..."
+    ssh -p "$DEST_PORT" "$DEST_USER@$DEST_SERVER" "find $REMOTE_BACKUP_DIR -type f -mtime +$RETENTION_DAYS -delete"
+    LATEST_BACKUP=$(ls -t "$BACKUP_DIR"/*.vma.zst | head -n 1)
+    if [[ -n "$LATEST_BACKUP" ]]; then
+        echo "Transferring latest backup: $LATEST_BACKUP to $DEST_USER@$DEST_SERVER:$REMOTE_BACKUP_DIR/"
+        rsync -avzrpP -e "ssh -p $DEST_PORT" "$LATEST_BACKUP" "$DEST_USER@$DEST_SERVER:$REMOTE_BACKUP_DIR/"
+    else
+        echo "No backup file found for VM $VM."
     fi
-
-    rsync -rsvpP -e "ssh -p 1922" "$SNAPSHOT_FILE" "$REMOTE_HOST:$REMOTE_DIR/vzdump-qemu-$VMIDS-$(date +%Y_%m_%d-%H_%M_%S).vma.zst"
-    ssh -p 1922 "$REMOTE_HOST" "find $REMOTE_DIR -name 'vzdump-qemu-$VMIDS*.tar.zst' -type f -exec ls -t {} + | tail -n +2 | xargs rm -f"
-    rm "$SNAPSHOT_FILE"
-
-    echo "Backup complete, starting VM again..."
-    qm start "$VMID"
-
-    echo "Snapshot for VM $VMID taken and backed up to remote host. Old backups cleaned up."
-    curl -d "Snapshot for VM $VMID taken and backed up to remote host. Old backups cleaned up." {{ snapshot_ntfy_channel }}
 done
+
+echo "Cleaning up old local backups..."
+find "$BACKUP_DIR" -type f -mtime +$RETENTION_DAYS -delete
+
+echo "Starting VM $VM_IDS"
+for VM in "${VM_IDS[@]}"; do
+    echo "Starting $VM"
+    qm start $VM
+done
+
+curl -d "[VM BACKUP] Backup completed successfully for VM(s): ${VM_IDS[*]}" https://ntfy.sh/backup_channel
+
+echo "Backup script completed at $(date '+%Y-%m-%d %H:%M:%S')"
