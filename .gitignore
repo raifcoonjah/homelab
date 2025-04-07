@@ -5,3 +5,4 @@
 *.terraform
 *.lock.hcl
 *.ansible
+*.DS_Store

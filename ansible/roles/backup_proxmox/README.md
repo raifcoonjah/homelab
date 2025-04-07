@@ -1,6 +1,6 @@
 # Proxmox Backup
 
-A Ansible role to deploy scripts and systemd timers, service to automatically take weekly VM snapshots and full VM backup on Friday night.
+A Ansible role to deploy backup script and systemd service/time to automatically backup specific VMs on Friday (23:30)
 
 ## Requirements
 
@@ -8,7 +8,11 @@ A running Proxmox instance
 
 ## Role Variables
 
-None
+```shell
+snapshot_path: "/home/backup/daily-snapshot"
+snapshot_ntfy_channel: "-"
+script_path: "/usr/local/homelab/scripts"
+```
 
 ## Dependencies
 
