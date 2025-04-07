@@ -23,8 +23,8 @@ rm -rf "$BACKUP_DIR"/*
 for VM in "${VM_IDS[@]}"; do
     echo "Starting backup of VM $VM at $(date '+%Y-%m-%d %H:%M:%S')" 
     echo "Stopping VM $VM..."
-    qm stop $VM
-    sleep 5
+    qm shutdown $VM
+    sleep 10
     vzdump "$VM" --compress zstd --dumpdir "$BACKUP_DIR"
     echo "Removing old backups on the destination server..."
     ssh -p "$DEST_PORT" "$DEST_USER@$DEST_SERVER" "find $REMOTE_BACKUP_DIR -type f -mtime +$RETENTION_DAYS -delete"
