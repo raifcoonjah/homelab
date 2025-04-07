@@ -4,7 +4,7 @@ A Ansible role to deploy backup script and systemd service/time to automatically
 
 ## Requirements
 
-A running Proxmox instance
+None
 
 ## Role Variables
 
