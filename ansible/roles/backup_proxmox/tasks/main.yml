@@ -32,7 +32,6 @@
     enabled: true
     daemon_reload: true
     state: started
-  ignore_errors: true # ONLY FOR TEST.. REMOVE BEFORE PROD
 
 - name: Copy backup service
   ansible.builtin.template:
@@ -49,5 +48,3 @@
     name: vm_backup.service
     enabled: true
     daemon_reload: true
-    state: started
-  ignore_errors: true # ONLY FOR TEST.. REMOVE BEFORE PROD

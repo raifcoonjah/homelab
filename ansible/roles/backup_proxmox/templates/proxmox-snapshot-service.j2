@@ -1,6 +1,10 @@
 [Unit]
-Description=Proxmox Multi VM Snapshot Service
+Description=Proxmox Multi VM snapshot Service
 
 [Service]
+User=root
 Type=oneshot
 ExecStart="{{ script_path }}/vm-snapshot.sh"
+
+[Install]
+WantedBy=multi-user.target

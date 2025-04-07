@@ -45,6 +45,6 @@ for VM in "${VM_IDS[@]}"; do
     qm start $VM
 done
 
-curl -d "[VM BACKUP] Backup completed successfully for VM(s): ${VM_IDS[*]}" https://ntfy.sh/backup_channel
+curl -d "[VM BACKUP] Backup completed successfully for VM(s): ${VM_IDS[*]}" {{ snapshot_ntfy_channel }}
 
 echo "Backup script completed at $(date '+%Y-%m-%d %H:%M:%S')"
