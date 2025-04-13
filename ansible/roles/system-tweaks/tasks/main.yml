@@ -12,6 +12,7 @@
     path: /etc/systemd/journald.conf
     regexp: "^SystemMaxUse="
     line: "SystemMaxUse={{ log_size }}"
+  ignore_errors: true # ignore in case the machine uses init.d
 
 - name: Copy tweaked sysctl configuration
   ansible.builtin.template:
@@ -24,3 +25,4 @@
   ansible.builtin.systemd_service:
     state: restarted
     name: systemd-journald
+  ignore_errors: true # ignore in case the machine uses init.d
