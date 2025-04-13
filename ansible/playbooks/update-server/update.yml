@@ -3,22 +3,25 @@
   hosts: all
 
   tasks:
-    - name: Refresh repository
+    - name: Refresh repository (debian)
       ansible.builtin.apt:
-       update_cache: true
+        update_cache: true
       when: ansible_facts['distribution'] == "Debian"
-    - name: Update using dnf
+    - name: Update packages (debian)
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+      when: ansible_facts['distribution'] == "Debian"
+    - name: Remove useless packages from the cache (debian)
+      ansible.builtin.apt:
+        autoclean: yes
+      when: ansible_facts['distribution'] == "Debian"
+    - name: Update using dnf (fedora)
       ansible.builtin.dnf:
         name: "*"
         state: latest
       when: ansible_facts['distribution'] == "Fedora"
-    - name: Update packages
-      ansible.builtin.apt:
-        name: "*"
-        state: latest
-      when: ansible_facts['distribution'] == "Debian"
-    - name: Remove useless packages from the cache
-      ansible.builtin.apt:
-        autoclean: yes
-      when: ansible_facts['distribution'] == "Debian"
-
+    - name: Update using apk (alpine)
+      community.general.apk:
+        upgrade: true
+      when: ansible_facts['distribution'] == "Alpine"
