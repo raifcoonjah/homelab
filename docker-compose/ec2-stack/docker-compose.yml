@@ -3,35 +3,26 @@
 ############
 
 services:
-  speedtest-tracker:
-    image: lscr.io/linuxserver/speedtest-tracker:latest
-    restart: unless-stopped
-    container_name: speedtest-tracker
-    ports:
-      - 8080:80
-      - 8443:443
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - APP_KEY=base64:i2cJfCOZpiZuuLe/RG8978ZpWCJxaU3wKm/cWDFiIdg=
-      - DB_CONNECTION=sqlite
-      - SPEEDTEST_SCHEDULE="0 * * * *"
-    volumes:
-      - ./config-spt:/config
-      - ./config-spt/key:/config/keys
-
-  zoraxy:
-    image: zoraxydocker/zoraxy:latest
-    container_name: zoraxy
+  nginx_proxy_manager:
+    image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
-      - 8000:8000
+      - '80:80'
+      - '81:81'
+      - '443:443'
     volumes:
-      - ./config-zoraxy:/opt/zoraxy/config/
-      - ./config-zoraxy/plugin:/opt/zoraxy/plugin/
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/localtime:/etc/localtime
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
     environment:
-      FASTGEOIP: "true"
+      HOMEPAGE_ALLOWED_HOSTS: gethomepage.dev # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      PUID: 1000 # optional, your user id
+      PGID: 1000 # optional, your group id
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+    restart: unless-stopped
