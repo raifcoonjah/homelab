@@ -1,5 +1,5 @@
 ---
-- name: Install minimal packages
+- name: Install minimal packages on Debian
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
@@ -14,3 +14,10 @@
   with_items:
     - "{{ minimal_packages }}"
   when: ansible_facts['distribution'] == "Alpine"
+
+- name: Install minimal packages on openSUSE
+  community.general.zypper:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ minimal_packages }}"
+  when: ansible_facts['distribution'] in ['openSUSE Leap', 'openSUSE Tumbleweed']
