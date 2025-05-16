@@ -28,6 +28,10 @@
     groups: sysmaster
     append: true
 
+- name: Fix OpenSUSE group permission
+  ansible.builtin.shell: "groupadd {{ ssh_master_user }}"
+  when: ansible_facts['distribution'] in ['openSUSE Leap', 'openSUSE Tumbleweed']
+
 - name: Create ssh directory
   ansible.builtin.file:
     path: "{{ ssh_authkey_path }}"
