@@ -4,16 +4,12 @@
     name: sysmaster
     state: present
 
-- name: Create sysmaster sudoers file
-  ansible.builtin.file:
-    path: /etc/sudoers.d/sysmaster
-    state: touch
-
 - name: Add sysmaster to root without passwd
   ansible.builtin.blockinfile:
     path: /etc/sudoers.d/sysmaster
     append_newline: true
     prepend_newline: true
+    create: true
     validate: "visudo -cf %s"
     block: |
       sysmaster ALL=(ALL) NOPASSWD:ALL
