@@ -1,4 +1,8 @@
 ---
+- name: Update package cache
+  ansible.builtin.package:
+    update_cache: true
+
 - name: Install minimal packages on Debian
   ansible.builtin.apt:
     name: "{{ item }}"
