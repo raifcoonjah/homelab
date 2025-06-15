@@ -4,14 +4,14 @@
 ###########################
 
 # Automatically compress images inside samba shared
-*/2 * * * * root /etc/mars-monitoring/scripts/compress-image.sh
+*/2 * * * * root /usr/local/homelab/script/compress-image.sh
 
 # Automatically compress pdf to save space
-*/5 * * * * root /etc/mars-monitoring/scripts/compress-pdf.sh
+*/5 * * * * root /usr/local/homelab/script/compress-pdf.sh
 
 # [SAMBA SHARE] Backup
-0 4 * * THU root /etc/mars-monitoring/scripts/samba-backup.sh
-0 4 * * SUN root /etc/mars-monitoring/scripts/samba-backup.sh
+0 4 * * THU root /usr/local/homelab/script/samba-backup.sh
+0 4 * * SUN root /usr/local/homelab/script/samba-backup.sh
 
 # [Docker] Automatically update samba
-30 4 * * * root cd /opt/stacks/samba && docker compose pull && docker compose up -d
+30 4 * * * root cd /opt/stacks/samba && /usr/bin/docker compose pull && /usr/bin/docker compose up -d
