@@ -1,0 +1,11 @@
+###########################
+### {{ ansible_facts['hostname'] }} ###
+### {{ ansible_managed }} ###
+###########################
+
+# PiHole Automatically update 
+0 15 * * 5 bash -c 'if pihole -up >/dev/null 2>&1; then curl -H "Content-Type: application/json" -d "{\"content\": \"Pi-hole update: SUCCESS\"}" WEBHOOK; else curl -H "Content-Type: application/json" -d "{\"content\": \"Pi-hole update: FAILED\"}" WEBHOOK; fi'
+
+# Unbound monthly update
+30 2 1 * * wget https://www.internic.net/domain/named.root -qO- | sudo tee /var/lib/unbound/root.hints
+
