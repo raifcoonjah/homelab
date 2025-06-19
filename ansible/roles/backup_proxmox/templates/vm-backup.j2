@@ -12,7 +12,7 @@ set -eu
 VM_IDS=("19206" "19208" "19211") #pihole, syncthing, ec2
 DEST_SERVER="192.168.100.24"
 DEST_USER="root"
-DEST_PORT="1922"
+DEST_PORT="22"
 BACKUP_DIR="/var/lib/vz/dump"
 REMOTE_BACKUP_DIR="/home/backup/weekly-backup"
 RETENTION_DAYS=1
@@ -24,7 +24,7 @@ for VM in "${VM_IDS[@]}"; do
     echo "Starting backup of VM $VM at $(date '+%Y-%m-%d %H:%M:%S')" 
     echo "Stopping VM $VM..."
     qm shutdown $VM
-    sleep 10
+    sleep 25
     vzdump "$VM" --compress zstd --dumpdir "$BACKUP_DIR"
     echo "Removing old backups on the destination server..."
     ssh -p "$DEST_PORT" "$DEST_USER@$DEST_SERVER" "find $REMOTE_BACKUP_DIR -type f -mtime +$RETENTION_DAYS -delete"
