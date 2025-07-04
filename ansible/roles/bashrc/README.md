@@ -6,9 +6,7 @@ A role to deploy a custom bashrc with aliases configured.
 Requirements
 ------------
 
-```shell
-A .bashrc file
-```
+None
 
 Role Variables
 --------------

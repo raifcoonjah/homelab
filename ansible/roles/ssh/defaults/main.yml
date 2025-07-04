@@ -3,3 +3,4 @@
 authkey_path: /root/.ssh/
 ssh_master_user: "raif.coonjah"
 ssh_authkey_path: "/home/raif.coonjah/.ssh"
+ssh_hardening: true

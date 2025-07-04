@@ -10,7 +10,7 @@ None
 
 ```shell
 snapshot_path: "/home/backup/daily-snapshot"
-snapshot_ntfy_channel: "-"
+snapshot_ntfy_channel: "XXX"
 script_path: "/usr/local/homelab/scripts"
 ```
 

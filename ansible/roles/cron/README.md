@@ -1,7 +1,7 @@
 CRON
 =========
 
-Simple cron to deploy generic cron to all servers 
+Simple cron to deploy cron from templates
 
 Requirements
 ------------
@@ -11,7 +11,7 @@ NONE
 Role Variables
 --------------
 
-None
+This role relies heavily on the `when: inventory_hostname`, kindly keep that in mind before using it. 
 
 Dependencies
 ------------

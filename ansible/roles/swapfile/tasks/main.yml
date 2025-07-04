@@ -27,4 +27,3 @@
 
 - name: Enable swap
   ansible.builtin.shell: "/usr/sbin/swapon -a"
-
