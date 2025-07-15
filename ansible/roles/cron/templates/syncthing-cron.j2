@@ -4,11 +4,12 @@
 ###########################
 
 # Randomize data inside syncthing directory
-10 3 * * * root /etc/mars-monitoring/scripts/compress-image.sh
-
+#10 3 * * * root /etc/mars-monitoring/scripts/compress-image.sh
 # Weekly syncthing backup
-20 0 * * FRI root /usr/local/apollo/scripts/syncthing-backup.sh
+#20 0 * * FRI root /usr/local/apollo/scripts/syncthing-backup.sh
+# DISABLED: Script was not working properly.
 
+# Change ownership of files in syncthing directory
 20 3 * * * root chown -R syncthing: /home/syncthing/
 
 # END OF FILE
