@@ -1,0 +1,24 @@
+#############################################
+# SNMPD Configuration #
+# {{ ansible_managed }} #
+# Never edit this file manually #
+#############################################
+
+# 1. Listen on all interfaces (UDP port 161)
+# not recommend since we are listening on all interfaces, will fix this in the future. #TODO
+agentAddress udp:161
+
+# 2. Define who can access SNMP (Centreon server IP only)
+com2sec centreonUser 192.168.100.7 {{ snmpd_community }}
+
+# 3. Group the security name under SNMPv2c
+group centreonGroup v2c centreonUser
+
+# 4. Expose full MIB tree (needed for system, storage, CPU, memory, etc.)
+view centreon included .1.3.6.1
+
+# 5. Grant read-only access to that MIB view
+access centreonGroup "" any noauth exact centreon none none
+
+# 7. Optional: Reduce logging noise
+dontLogTCPWrappers yes

@@ -4,6 +4,11 @@
     name: sysmaster
     state: present
 
+- name: Ensure sudo package is installed
+  ansible.builtin.package:
+    name: sudo
+    state: present
+
 - name: Add sysmaster to root without passwd
   ansible.builtin.blockinfile:
     path: /etc/sudoers.d/sysmaster
@@ -18,7 +23,7 @@
 - name: Create master user
   ansible.builtin.user:
     name: "{{ ssh_master_user }}"
-    comment: "{{ ansible_managed }}. DO NOT modify them manually"
+    comment: Ansible managed. DO NOT modify them manually"
     create_home: true
     shell: /bin/bash
     groups: sysmaster
