@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eu
+
+####################################################################
+### PROXMOX VM BACKUP AND MOVE
+### This script is used to perform weekly backup of VMs on a Proxmox server,
+### move them to /backup and maintain a 1-day retention policy.
+### {{ ansible_managed }} ### DO NOT MODIFY
+####################################################################
+
+VM_IDS=("19206" "19207" "19208" "19211") 
+# 19206
+# 19207
+# 19208
+# 19211
+BACKUP_DIR="/var/lib/vz/dump"
+DEST_DIR="/backup"
+RETENTION_DAYS=1
+
+echo "Empying backup directory..."
+rm -rf "$BACKUP_DIR"/*
+
+echo "Deleting old backups in $DEST_DIR..."
+find "$DEST_DIR" -type f -name "*.vma.zst" -mtime +$RETENTION_DAYS -delete
+
+for VM in "${VM_IDS[@]}"; do
+    echo "Starting backup of VM $VM at $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "Stopping VM $VM..."
+    qm shutdown $VM
+    sleep 25
+    vzdump "$VM" --compress zstd --dumpdir "$BACKUP_DIR"
+done
+
+echo "Moving backup files from $BACKUP_DIR to $DEST_DIR..."
+mv "$BACKUP_DIR"/*.vma.zst "$DEST_DIR"/
+
+echo "Starting VM $VM_IDS"
+for VM in "${VM_IDS[@]}"; do
+    echo "Starting $VM"
+    qm start $VM
+done
+
+curl -d "[VM BACKUP] Backup and move completed successfully for VM(s): ${VM_IDS[*]}" {{ snapshot_ntfy_channel }}
+
+echo "Backup script completed at $(date '+%Y-%m-%d %H:%M:%S')"

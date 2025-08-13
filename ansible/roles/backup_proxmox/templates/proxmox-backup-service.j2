@@ -1,10 +1,10 @@
 [Unit]
-Description=Proxmox Multi VM Backup Service
+Description=Proxmox Multi VM Backup Service - mvbackup.sh
 
 [Service]
 User=root
 Type=oneshot
-ExecStart="{{ script_path }}/vm-backup.sh"
+ExecStart="{{ script_path }}/mv-backup.sh"
 
 [Install]
 WantedBy=multi-user.target

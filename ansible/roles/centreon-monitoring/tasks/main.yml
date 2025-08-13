@@ -1,14 +1,13 @@
 #SPDX-License-Identifier: MIT-0
 ---
-- name: install monitoring package
+- name: Install snmp packages
   ansible.builtin.package:
     name:
       - snmpd
       - snmp
     state: present
-  ignore_errors: true # if it fails, we are assuming its installed, we should run the snmp command and see if its installed?
 
-- name: copy snmpd configuration template
+- name: Copy centreon config
   ansible.builtin.template:
     src: snmpd.j2
     dest: /etc/snmp/snmpd.conf
@@ -16,13 +15,14 @@
     group: root
     mode: '0644'
 
-- name: enable and start snmpd service 
+- name: Enable and start snmpd service
   ansible.builtin.systemd_service:
     state: started
     enabled: true
     name: snmpd.service 
 
-- name: restart snmpd
+# This is a hack to resolve a weird issue with snmpd not starting properly.
+- name: Restart snmpd
   ansible.builtin.systemd_service:
     state: restarted
     name: snmpd.service

@@ -3,6 +3,7 @@
   hosts: all
 
   roles:
+# CORE:
     - role: ssh
       tags: ssh
     - role: system-tweaks
@@ -19,11 +20,13 @@
       tags: update_motd
     - role: reboot
       tags: reboot
+    - role: centreon-monitoring
+      tags: centreon-monitoring 
+# OPTIONAL:
     - role: syncthing
       tags: never, syncthing
     - role: docker
       tags: never, docker
     - role: backup_proxmox
       tags: never, backup_proxmox
-    - role: centreon-monitoring
-      tags: centreon-monitoring 
+

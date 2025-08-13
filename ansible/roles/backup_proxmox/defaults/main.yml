@@ -1,5 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
-snapshot_path: "/home/backup/daily-snapshot"
-snapshot_ntfy_channel: "{{ undefined }}"
+snapshot_path: "/backup/weekly-backup"
+snapshot_ntfy_channel: "backup_channel_HXkpCIzrDrcLFTAn"
 script_path: "/usr/local/homelab/scripts"

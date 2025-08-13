@@ -2,17 +2,18 @@
 ### {{ ansible_facts['hostname'] }} - CRON ###
 ### {{ ansible_managed }} ###
 ###########################
+# fix smartctl script
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Automatically update beszel weekly on FRI
 0 0 * * * root /opt/beszel-agent/beszel-agent update && /usr/bin/systemctl restart beszel-agent
 
 # [SYSTEM] Monitoring
 # DISK Health
-0 1 * * FRI root /usr/local/homelab/scripts/disk_health.sh
+04 5 * * FRI root /usr/local/homelab/scripts/disk_health.sh
 
-### Automatic Reboot ###
-# Reboot the system at 04:00 on the first day of every month
-0 4 1 * * root /usr/sbin/reboot
+### PWRZ ###
+# Automatically stop/start/restart specific VMs, similar to AWS
 
 # PIHOLE VM - Restart At 05:30 on Friday
 30 5 * * FRI root /usr/sbin/qm shutdown 19206 && sleep 5 && /usr/sbin/qm start 19206 && sleep 5
@@ -22,10 +23,10 @@
 # update: remove notify due to spam
 30 5 * * * root /usr/sbin/qm shutdown 192100 && sleep 5 && /usr/sbin/qm start 192100
 
-# SYNCTHING VM
-# Automatically stop and start the VM when not in use 
-# to save resources. 
-45 19 * * * root /usr/sbin/qm shutdown 19211
-45 08 * * * root /usr/sbin/qm start 19211
+##### PWRZ - Save Power ######
 
-# END OF FILE 
+# SYNCTHING VM
+35 20 * * * root /usr/sbin/qm shutdown 19211
+30 08 * * * root /usr/sbin/qm start 19211
+
+# END OF FILE
