@@ -21,7 +21,7 @@
     enabled: true
     name: snmpd.service 
 
-# This is a hack to resolve a weird issue with snmpd not starting properly.
+# this is a hack to resolve a weird issue with snmpd not starting properly.
 - name: Restart snmpd
   ansible.builtin.systemd_service:
     state: restarted
