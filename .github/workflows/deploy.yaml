@@ -11,17 +11,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Update repository
+    - name: Clone codebase
       run: |
-        # Define target directory
         TARGET_DIR="/etc/ansible"
-
-        # Check if repo already exists
         if [ -d "$TARGET_DIR/.git" ]; then
           cd $TARGET_DIR
-          sudo git fetch origin
-          sudo git reset --hard origin/refactor_codebase
-          sudo git pull --rebase
+          sudo /usr/bin/git fetch origin
+          sudo /usr/bin/git reset --hard origin/refactor_codebase
+          sudo /usr/bin/git pull --rebase
         else
-          sudo git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
+          sudo /usr/bin/git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
         fi
