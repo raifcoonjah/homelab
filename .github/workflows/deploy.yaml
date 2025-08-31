@@ -1,0 +1,27 @@
+name: Update codebase on controller
+
+on:
+  push:
+    branches:
+      # - main
+      - refactor_codebase
+
+jobs:
+  update:
+    runs-on: self-hosted
+
+    steps:
+    - name: Update repository
+      run: |
+        # Define target directory
+        TARGET_DIR="/etc/ansible"
+
+        # Check if repo already exists
+        if [ -d "$TARGET_DIR/.git" ]; then
+          cd $TARGET_DIR
+          sudo git fetch origin
+          sudo git reset --hard origin/refactor_codebase
+          sudo git pull --rebase
+        else
+          sudo git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
+        fi
