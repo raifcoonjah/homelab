@@ -1,0 +1,28 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Install snmp packages
+  ansible.builtin.package:
+    name:
+      - snmpd
+      - snmp
+    state: present
+
+- name: Copy centreon config
+  ansible.builtin.template:
+    src: snmpd.j2
+    dest: /etc/snmp/snmpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start snmpd service
+  ansible.builtin.systemd_service:
+    state: started
+    enabled: true
+    name: snmpd.service 
+
+# this is a hack to resolve a weird issue with snmpd not starting properly.
+- name: Restart snmpd
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: snmpd.service

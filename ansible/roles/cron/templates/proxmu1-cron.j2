@@ -1,14 +1,16 @@
 ###########################
-### {{ ansible_facts['hostname'] }} ###
+### {{ ansible_facts['hostname'] }} - CRON ###
 ### {{ ansible_managed }} ###
 ###########################
+# fix smartctl script
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Automatically update beszel weekly on FRI
 0 0 * * * root /opt/beszel-agent/beszel-agent update && /usr/bin/systemctl restart beszel-agent
 
 # [SYSTEM] Monitoring
 # DISK Health
-0 1 * * FRI root /usr/local/homelab/scripts/disk_health.sh
+04 5 * * FRI root /usr/local/homelab/scripts/disk_health.sh
 
 ### PWRZ ###
 # Automatically stop/start/restart specific VMs, similar to AWS
@@ -23,8 +25,8 @@
 
 ##### PWRZ - Save Power ######
 
-# SYNCTHING VM 
+# SYNCTHING VM
 35 20 * * * root /usr/sbin/qm shutdown 19211
 30 08 * * * root /usr/sbin/qm start 19211
 
-# END OF FILE 
+# END OF FILE

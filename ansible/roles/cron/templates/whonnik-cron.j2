@@ -4,10 +4,10 @@
 ###########################
 
 # Automatically compress images inside samba shared
-*/2 * * * * root /usr/local/homelab/script/compress-image.sh
+30 7 * * 5 root /usr/local/homelab/script/compress-image.sh
 
 # Automatically compress pdf to save space
-*/5 * * * * root /usr/local/homelab/script/compress-pdf.sh
+30 7 * * 5 root /usr/local/homelab/script/compress-pdf.sh
 
 # [SAMBA SHARE] Backup
 0 4 * * THU root /usr/local/homelab/script/samba-backup.sh
@@ -15,3 +15,7 @@
 
 # [Docker] Automatically update samba
 30 4 * * * root cd /opt/stacks/samba && /usr/bin/docker compose pull && /usr/bin/docker compose up -d
+
+### Automatic Reboot ###
+# Reboot the system at 04:00 on the first day of every month, if the system has been up for more than 7 days
+0 4 1 * * root /usr/sbin/reboot --force --reboot-if-up-time-greater-than=7d

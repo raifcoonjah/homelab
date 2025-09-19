@@ -1,9 +1,9 @@
 #SPDX-License-Identifier: MIT-0
 ---
-- name: Copy weekly backup script
+- name: Copy weekly backup script (mv-backup.sh)
   ansible.builtin.template:
-    src: vm-backup.j2
-    dest: "{{ script_path }}/vm-backup.sh"
+    src: mv-backup.j2
+    dest: "{{ script_path }}/mv-backup.sh"
     owner: root
     group: root
     mode: "0770"

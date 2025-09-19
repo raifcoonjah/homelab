@@ -4,6 +4,11 @@
     name: sysmaster
     state: present
 
+- name: Ensure sudo package is installed
+  ansible.builtin.package:
+    name: sudo
+    state: present
+
 - name: Add sysmaster to root without passwd
   ansible.builtin.blockinfile:
     path: /etc/sudoers.d/sysmaster
@@ -18,13 +23,13 @@
 - name: Create master user
   ansible.builtin.user:
     name: "{{ ssh_master_user }}"
-    comment: "This user was deploy using Ansible. DO NOT modify them manually"
+    comment: Ansible managed. DO NOT modify them manually"
     create_home: true
     shell: /bin/bash
     groups: sysmaster
     append: true
 
-- name: Fix OpenSUSE group permission
+- name: Fix group permission if OpenSUSE
   ansible.builtin.shell: "groupadd {{ ssh_master_user }}"
   when: ansible_facts['distribution'] in ['openSUSE Leap', 'openSUSE Tumbleweed']
 
@@ -57,9 +62,11 @@
     path: "/etc/ssh/sshd_config"
     insertafter: "^#MaxAuthTries 6"
     line: "MaxAuthTries 3"
+  when: ssh_hardening == true
 
 - name: Enforce use of protocol 2
   ansible.builtin.lineinfile:
     path: "/etc/ssh/sshd_config"
     insertafter: "^Include /etc/ssh/sshd_config.d/*.conf"
     line: "Protocol 2"
+  when: ssh_hardening == true 

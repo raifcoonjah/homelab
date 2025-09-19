@@ -6,7 +6,6 @@
 # Display system information
 echo "---------------------------------------------------"
 printf "Welcome to $(hostname)\n"
-printf "Kernel: $(uname -r)\n"
 printf "Uptime: $(uptime -p)\n"
 printf "Load: $(uptime | awk -F'load average:' '{ print $2 }')\n"
 printf "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')\n"

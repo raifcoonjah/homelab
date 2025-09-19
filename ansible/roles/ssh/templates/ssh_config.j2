@@ -3,22 +3,17 @@
 ForwardAgent yes
 User {{ ssh_master_user }}
 
-Host graviton
-        Hostname 192.168.100.20
-        Port 1922
+Host orion
+        Hostname orion
 
-Host whonnik
-       Hostname 192.168.100.24
-       Port 1922
+Host proxy
+       Hostname proxy
 
 Host pihole
-     Hostname 192.168.100.5
+     Hostname pihole
 
-Host kraken-slave
-     Hostname 192.168.100.11
+Host centron-prod
+     Hostname centreon-prod
 
-Host ec2
-     Hostname 192.168.100.8
-
-Host git
-     Hostname 192.168.100.6
+Host syncthing
+     Hostname syncthing

@@ -1,24 +1,29 @@
-# Proxmox Backup
+Proxmox Backup
+=========
 
 A Ansible role to deploy backup script and systemd service/time to automatically backup specific VMs on Friday (23:30)
 
-## Requirements
+Requirements
+=========
 
 None
 
-## Role Variables
+Role Variables
+=========
 
 ```shell
 snapshot_path: "/home/backup/daily-snapshot"
-snapshot_ntfy_channel: "-"
+snapshot_ntfy_channel: "XXX"
 script_path: "/usr/local/homelab/scripts"
 ```
 
-## Dependencies
+Dependencies
+=========
 
 None
 
-## Example Playbook
+Example Playbook
+=========
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
@@ -26,10 +31,12 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - backup_proxmox
 
-## License
+License
+=========
 
 MIT
 
-## Author Information
+Author Information
+=========
 
 Raif Coonjah (c) 2025

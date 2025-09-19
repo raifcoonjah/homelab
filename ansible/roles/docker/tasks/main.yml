@@ -12,7 +12,7 @@
       - ca-certificates
       - curl
       - gnupg
-      - software-properties-common
+#      - software-properties-common
 
 - name: Create the /etc/apt/keyrings directory
   ansible.builtin.file:
