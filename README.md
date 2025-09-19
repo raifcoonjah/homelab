@@ -2,7 +2,9 @@
 
 🫀 https://youtu.be/yoFTL0Zm3tw?si=L8GFws0YiC2Ms9ER
 
-Homelab infra:
+## Infrastructure
+
+For my homelab, I use KISS (Keep it simple, stupid!) principle as much as possible.
 
 **orion**:
 
@@ -19,3 +21,14 @@ Homelab infra:
             GPU: Intel Alder Lake-S GT1 [UHD Graphics 730]
             Memory: 10136MiB / 15624MiB
 ```
+
+## Services: 
+
+None of these services are publicly available. I access everything using tailscale when not in localhost.
+
+| Host | Service | IP |
+|---|---|---|
+| pihole | pihole | 192.168.100.5 |
+| centreon-prod-v2 | Centreon Central | 192.168.100.7 |
+| microOS-Node00 | Cloudreve, syncthing & Nginx Proxy Manager (docker) | 192.168.100.8 |
+| jellyfin | Jellyfin Media Server | 192.168.100.100 |
