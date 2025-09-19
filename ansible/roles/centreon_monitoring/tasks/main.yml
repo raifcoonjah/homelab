@@ -1,4 +1,3 @@
-#SPDX-License-Identifier: MIT-0
 ---
 - name: Install snmp packages
   ansible.builtin.package:
@@ -19,7 +18,7 @@
   ansible.builtin.systemd_service:
     state: started
     enabled: true
-    name: snmpd.service 
+    name: snmpd.service
 
 # this is a hack to resolve a weird issue with snmpd not starting properly.
 - name: Restart snmpd

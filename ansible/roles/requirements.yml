@@ -1,3 +1,7 @@
 - name: jellyfin_role
   src: https://github.com/sxravan/ansible-role-jellyfin.git
   version: main
+
+- name: syncthing_role
+  src: https://github.com/raifcoonjah/syncthing.git
+  version: main

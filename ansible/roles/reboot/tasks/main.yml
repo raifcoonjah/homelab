@@ -2,4 +2,4 @@
 - name: Unconditionally reboot
   ansible.builtin.reboot:
     connect_timeout: 60
-    msg: "System reboot initialized!"
+    msg: "System reboot request sent..."

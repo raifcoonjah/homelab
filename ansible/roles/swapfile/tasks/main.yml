@@ -1,23 +1,25 @@
 ---
-# tasks file for swapfile
-
 - name: Check if swapfile exists
   ansible.builtin.stat:
     path: "{{ swap_file }}"
   register: swapfile_check
 
 - name: Create swapfile
-  ansible.builtin.shell: "/usr/bin/fallocate -l {{ swap_size }} {{ swap_file }}"
+  ansible.builtin.command: "/usr/bin/fallocate -l {{ swap_size }} {{ swap_file }}"
   when: not swapfile_check.stat.exists
+  register: create_swapfile
+  changed_when: create_swapfile.rc == 0
 
 - name: Set correct permission
   ansible.builtin.file:
     path: "{{ swap_file }}"
-    mode: 0600
+    mode: "0600"
 
 - name: Format swapfile partition
-  ansible.builtin.shell: "/usr/sbin/mkswap {{ swap_file }}"
+  ansible.builtin.command: "/usr/sbin/mkswap {{ swap_file }}"
   when: not swapfile_check.stat.exists
+  register: format_swapfile
+  changed_when: format_swapfile.rc == 0
 
 - name: Add fstab entry
   ansible.builtin.lineinfile:
@@ -26,4 +28,7 @@
     line: "{{ swap_file }} none swap sw 0 0"
 
 - name: Enable swap
-  ansible.builtin.shell: "/usr/sbin/swapon -a"
+  ansible.builtin.command: "/usr/sbin/swapon -a"
+  when: not swapfile_check.stat.exists
+  register: enable_swap
+  changed_when: enable_swap.rc == 0

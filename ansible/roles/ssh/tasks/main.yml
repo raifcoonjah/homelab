@@ -19,6 +19,7 @@
     block: |
       sysmaster ALL=(ALL) NOPASSWD:ALL
       %sysmaster ALL=(ALL) NOPASSWD:ALL
+    mode: '0440'
 
 - name: Create master user
   ansible.builtin.user:
@@ -29,8 +30,10 @@
     groups: sysmaster
     append: true
 
-- name: Fix group permission if OpenSUSE
-  ansible.builtin.shell: "groupadd {{ ssh_master_user }}"
+- name: Add group permission (OpenSUSE)
+  ansible.builtin.command: "groupadd {{ ssh_master_user }}"
+  register: add_group_suse
+  changed_when: add_group_suse.rc != 0
   when: ansible_facts['distribution'] in ['openSUSE Leap', 'openSUSE Tumbleweed']
 
 - name: Create ssh directory
@@ -62,11 +65,11 @@
     path: "/etc/ssh/sshd_config"
     insertafter: "^#MaxAuthTries 6"
     line: "MaxAuthTries 3"
-  when: ssh_hardening == true
+  when: ssh_hardening
 
 - name: Enforce use of protocol 2
   ansible.builtin.lineinfile:
     path: "/etc/ssh/sshd_config"
     insertafter: "^Include /etc/ssh/sshd_config.d/*.conf"
     line: "Protocol 2"
-  when: ssh_hardening == true 
+  when: ssh_hardening
