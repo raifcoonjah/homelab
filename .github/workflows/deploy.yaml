@@ -3,7 +3,7 @@ name: Update codebase on controller
 on:
   push:
     branches:
-      # - main
+      - main
       - refactor_codebase
 
 jobs:
