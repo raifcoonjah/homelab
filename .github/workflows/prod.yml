@@ -25,6 +25,6 @@ jobs:
 
     - name: Run ansible-lint
       run: |
-        cd /etc/ansible/ansible/roles
+        cd /etc/ansible/ansible/ # temp path
         ansible-lint roles/* --exclude */meta/main.yml
       continue-on-error: true
