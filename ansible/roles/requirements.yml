@@ -4,4 +4,4 @@
 
 - name: syncthing_role
   src: https://github.com/raifcoonjah/syncthing.git
-  version: main
+  version: master
