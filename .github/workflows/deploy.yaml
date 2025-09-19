@@ -22,3 +22,8 @@ jobs:
         else
           sudo /usr/bin/git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
         fi
+
+    - name: Run ansible-lint
+      run: |
+        cd /etc/ansible
+        ansible-lint * --exclude */meta/main.yml
