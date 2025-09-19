@@ -9,6 +9,7 @@ on:
 jobs:
   chk_lint:
     runs-on: self-hosted
+    run-after: update
 
     steps:
 
