@@ -11,9 +11,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Clone codebase
+    - name: Clone codebase (homelab)
       run: |
-        TARGET_DIR="/etc/ansible"
+        TARGET_DIR="/etc/ansible/homelab"
         if [ -d "$TARGET_DIR/.git" ]; then
           cd $TARGET_DIR
           sudo /usr/bin/git fetch origin
