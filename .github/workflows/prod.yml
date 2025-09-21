@@ -32,4 +32,4 @@ jobs:
     - name: Check connectivity
       run: |
         cd /etc/ansible/ansible
-        ansible -m ping -i inventories/prod/hosts.yml all -u "{{ ANSIBLE_USER }}"
+        ansible -m ping -i inventories/prod/hosts.yml all -u root
