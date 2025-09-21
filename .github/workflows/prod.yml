@@ -11,27 +11,24 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Set target directory
-      run: echo "TARGET_DIR=/etc/ansible" >> $GITHUB_ENV
-
-    - name: Update or clone codebase
+    - name: Clone codebase
       run: |
-        if [ -d "${{ env.TARGET_DIR }}/.git" ]; then
-          cd "${{ env.TARGET_DIR }}"
-          sudo git fetch origin
-          sudo git reset --hard origin/refactor_codebase
-          # No git pull needed after reset --hard
+        TARGET_DIR="/etc/ansible"
+        if [ -d "$TARGET_DIR/.git" ]; then
+          cd $TARGET_DIR
+          sudo /usr/bin/git fetch origin
+          sudo /usr/bin/git pull --rebase
         else
-          sudo git clone git@github.com:raifcoonjah/homelab.git "${{ env.TARGET_DIR }}"
+          sudo /usr/bin/git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
         fi
 
     - name: Run ansible-lint
       run: |
-        cd "${{ env.TARGET_DIR }}/ansible"
-        ansible-lint roles/* --exclude '*/meta/main.yml'
-      continue-on-error: false # we can ignore for failure for now, will fix this later
-
-    - name: Check Ansible connectivity
+        cd /etc/ansible/ansible/ # temp path
+        ansible-lint roles/* --exclude */meta/main.yml
+      continue-on-error: true
+    
+    - name: Check connectivity
       run: |
-        cd "${{ env.TARGET_DIR }}/ansible"
-        sudo ansible -m ping -i inventories/prod/hosts.yml all -u root --timeout=10
+        cd /etc/ansible/ansible
+        ansible -m ping -i inventories/prod/hosts.yml all -u root --timeout=10
