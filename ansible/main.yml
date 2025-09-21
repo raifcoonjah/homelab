@@ -6,8 +6,8 @@
 # CORE:
     - role: ssh
       tags: ssh
-    - role: system-tweaks
-      tags: system-tweaks
+    - role: system_tweaks
+      tags: system_tweaks
     - role: minimal_packages
       tags: minimal_packages
     - role: bashrc
@@ -20,11 +20,11 @@
       tags: update_motd
     - role: reboot
       tags: reboot
-    - role: centreon-monitoring
-      tags: centreon-monitoring 
+    - role: centreon_monitoring
+      tags: centreon_monitoring 
 # OPTIONAL:
-    - role: syncthing
-      tags: never, syncthing
+#    - role: syncthing
+#      tags: never, syncthing
     - role: docker
       tags: never, docker
     - role: backup_proxmox
