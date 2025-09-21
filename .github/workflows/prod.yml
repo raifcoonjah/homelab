@@ -28,3 +28,8 @@ jobs:
         cd /etc/ansible/ansible/ # temp path
         ansible-lint roles/* --exclude */meta/main.yml
       continue-on-error: true
+    
+    - name: Check connectivity
+      run: |
+        cd /etc/ansible/
+        ansible -m ping -i inventories/prod/hosts.yml all -u $"{{ ANSIBLE_USER }}"
