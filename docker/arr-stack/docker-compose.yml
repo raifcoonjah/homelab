@@ -30,18 +30,18 @@ services:
       - 8989:8989
     restart: unless-stopped
 
-    prowlarr:
-      image: lscr.io/linuxserver/prowlarr:latest
-      container_name: prowlarr
-      environment:
-        - PUID=0
-        - PGID=0
-        - TZ=Indian/Mauritius
-      volumes:
-        - ./prowlarr-config:/config
-      ports:
-        - 9696:9696
-      restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Indian/Mauritius
+    volumes:
+      - ./prowlarr-config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
     
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
