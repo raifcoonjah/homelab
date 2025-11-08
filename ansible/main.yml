@@ -29,4 +29,5 @@
       tags: never, docker
     - role: backup_proxmox
       tags: never, backup_proxmox
-
+    - role: unbound-pihole
+      tags: unbound-pihole

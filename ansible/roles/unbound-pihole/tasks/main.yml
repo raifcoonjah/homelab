@@ -1,0 +1,26 @@
+---
+- name: install unbound package
+  ansible.builtin.package:
+    name: unbound
+    state: present
+
+- name: download root hints
+  ansible.builtin.get_url:
+    url: https://www.internic.net/domain/named.cache
+    dest: /etc/unbound/root.hintsv
+
+- name: copy unbound config
+  ansible.builtin.template:
+    src: pihole-unbound.j2
+    dest: /etc/unbound/unbound.conf.d/pi-hole.conf
+
+- name: ensure unbound is started
+  ansible.builtin.service:
+    name: unbound
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: try dig pihole
+  ansible.builtin.command: "dig pi-hole.net @127.0.0.1 -p 5335"
+  register: dig_result
