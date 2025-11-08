@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    init: true
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Indian/Mauritius
+      - PORT=5055
+      - PUID=0
+      - PGID=0
+    ports:
+      - 5055:5055
+    volumes:
+      - ./config:/app/config
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://192.168.100.100:5055/api/v1/status || exit 1"]
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped

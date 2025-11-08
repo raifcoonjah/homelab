@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    environment:
+      - TZ=Indian/Mauritius
+    ports:
+      - 7575:7575
+    volumes:
+      - ./config:/app/data/configs
+      - ./icons:/app/public/icons
+    restart: unless-stopped
