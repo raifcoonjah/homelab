@@ -1,34 +1,34 @@
-name: Update codebase on controller
+# name: Update codebase on controller # disable for now 
 
-on:
-  push:
-    branches:
-      - main
-      - refactor_codebase
+# on:
+#   push:
+#     branches:
+#       - main
+#       - refactor_codebase
 
-jobs:
-  update:
-    runs-on: self-hosted
+# jobs: 
+#   update:
+#     runs-on: self-hosted
 
-    steps:
-    - name: Clone codebase (homelab)
-      run: |
-        TARGET_DIR="/etc/ansible/homelab"
-        if [ -d "$TARGET_DIR/.git" ]; then
-          cd $TARGET_DIR
-          sudo /usr/bin/git fetch origin
-          sudo /usr/bin/git pull --rebase
-        else
-          sudo /usr/bin/git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
-        fi
+#     steps:
+#     - name: Clone codebase (homelab)
+#       run: |
+#         TARGET_DIR="/etc/ansible/homelab"
+#         if [ -d "$TARGET_DIR/.git" ]; then
+#           cd $TARGET_DIR
+#           sudo /usr/bin/git fetch origin
+#           sudo /usr/bin/git pull --rebase
+#         else
+#           sudo /usr/bin/git clone git@github.com:raifcoonjah/homelab.git $TARGET_DIR
+#         fi
 
-    - name: Run ansible-lint
-      run: |
-        cd /etc/ansible/ansible/ # temp path
-        ansible-lint roles/* --exclude */meta/main.yml
-      continue-on-error: true
+#     - name: Run ansible-lint
+#       run: |
+#         cd /etc/ansible/ansible/ # temp path
+#         ansible-lint roles/* --exclude */meta/main.yml
+#       continue-on-error: true
     
-    - name: Check connectivity
-      run: |
-        cd /etc/ansible/ansible
-        sudo ansible -m ping -i inventories/prod/hosts.yml all -u root --timeout=10
+#     - name: Check connectivity
+#       run: |
+#         cd /etc/ansible/ansible
+#         sudo ansible -m ping -i inventories/prod/hosts.yml all -u root --timeout=10
