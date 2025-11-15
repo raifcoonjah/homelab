@@ -48,7 +48,7 @@ graph TB
         end
         
         subgraph VMs["Virtual Machines & Containers"]
-            pihole_master[Pi-hole Master<br/>192.168.100.5<br/>Primary DNS<br/>Debian 13 VM]
+            pihole_master[Pi-hole Master<br/>192.168.100.5<br/>Primary DNS + DHCP <br/>Debian 13 VM]
             pihole_slave[Pi-hole Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
             centreon[Centreon-prod-v2<br/>Monitoring Server<br/>AlmaLinux 9 VM]
             jellyfin[Jellyfin<br/>192.168.100.100<br/>Media Server + Arr Stack<br/>Debian 13 VM]
