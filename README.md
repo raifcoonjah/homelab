@@ -9,18 +9,96 @@ For my homelab, I use KISS (Keep it simple, stupid!) principle as much as possib
 **orion**:
 
 ```shell
-  _____     root@orion
- /  __ \    ----------
-|  /    |   OS: Proxmox VE 8.4.9 x86_64
-|  \___-    Host: 12TES0G72C ThinkCentre M70q Gen 5
--_          Kernel: 6.8.12-13-pve
-  --_       Uptime: 2 days, 23 hours, 52 mins
-            Packages: 1039 (dpkg)
-            Shell: bash 5.2.15
-            CPU: Intel i5-14400T (16) @ 4.500GHz
-            GPU: Intel Alder Lake-S GT1 [UHD Graphics 730]
-            Memory: 10136MiB / 15624MiB
+         .://:`              `://:.            root@orion
+       `hMMMMMMd/          /dMMMMMMh`          ----------
+        `sMMMMMMMd:      :mMMMMMMMs`           OS: Proxmox VE 9.0.11 x86_64
+`-/+oo+/:`.yMMMMMMMh-  -hMMMMMMMy.`:/+oo+/-`   Host: 12TES0G72C ThinkCentre M70q Gen 5
+`:oooooooo/`-hMMMMMMMyyMMMMMMMh-`/oooooooo:`   Kernel: 6.14.11-4-pve
+  `/oooooooo:`:mMMMMMMMMMMMMm:`:oooooooo/`     Uptime: 21 hours, 18 mins
+    ./ooooooo+- +NMMMMMMMMN+ -+ooooooo/.       Packages: 1131 (dpkg)
+      .+ooooooo+-`oNMMMMNo`-+ooooooo+.         Shell: bash 5.2.37
+        -+ooooooo/.`sMMs`./ooooooo+-           CPU: Intel i5-14400T (16) @ 4.500GHz
+          :oooooooo/`..`/oooooooo:             GPU: Intel Alder Lake-S GT1 [UHD Graphics 730]
+          :oooooooo/`..`/oooooooo:             Memory: 8524MiB / 15622MiB
+        -+ooooooo/.`sMMs`./ooooooo+-
+      .+ooooooo+-`oNMMMMNo`-+ooooooo+.
+    ./ooooooo+- +NMMMMMMMMN+ -+ooooooo/.
+  `/oooooooo:`:mMMMMMMMMMMMMm:`:oooooooo/`
+`:oooooooo/`-hMMMMMMMyyMMMMMMMh-`/oooooooo:`
+`-/+oo+/:`.yMMMMMMMh-  -hMMMMMMMy.`:/+oo+/-`
+        `sMMMMMMMm:      :dMMMMMMMs`
+       `hMMMMMMd/          /dMMMMMMh`
+         `://:`              `://:`
 ```
+
+## Diagram
+
+```mermaid
+graph TB
+    Internet[Internet/Gateway<br/>192.168.100.1]
+    
+    subgraph Physical["Orion - Proxmox Hypervisor"]
+        direction TB
+        eno1[eno1<br/>Physical NIC]
+        
+        subgraph Bridges["Network Bridges"]
+            vmbr0[vmbr0<br/>192.168.100.20/24<br/>Main Bridge]
+            vlan1[VLAN 1<br/>vlan-raw-device]
+            vmbr1[vmbr1<br/>192.168.102.1/24<br/>VLAN Bridge]
+        end
+        
+        subgraph VMs["Virtual Machines & Containers"]
+            pihole_master[Pi-hole Master<br/>192.168.100.5<br/>Primary DNS<br/>Debian 13 VM]
+            pihole_slave[Pi-hole Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
+            centreon[Centreon-prod-v2<br/>Monitoring Server<br/>AlmaLinux 9 VM]
+            jellyfin[Jellyfin<br/>192.168.100.100<br/>Media Server + Arr Stack<br/>Debian 13 VM]
+            docker01[docker-node01<br/>Nginx Proxy Manager<br/>Reverse Proxy<br/>Debian 13 LXC]
+            docker02[docker-node02<br/>Debian 13 LXC]
+        end
+        
+        eno1 --> vmbr0
+        eno1 -.VLAN.-> vlan1
+        vlan1 --> vmbr1
+        
+        vmbr0 --> pihole_master
+        vmbr0 --> pihole_slave
+        vmbr0 --> centreon
+        vmbr0 --> jellyfin
+        vmbr0 --> docker01
+        vmbr0 --> docker02
+    end
+    
+    Internet <--> eno1
+    
+    docker01 -.reverse proxy.-> jellyfin
+    
+    pihole_master -.DNS 1.-> pihole_slave
+    pihole_master -.DNS 1.-> jellyfin
+    pihole_master -.DNS 1.-> docker01
+    pihole_master -.DNS 1.-> docker02
+    pihole_master -.DNS 1.-> centreon
+    
+    pihole_slave -.DNS 3.-> jellyfin
+    pihole_slave -.DNS 3.-> docker01
+    pihole_slave -.DNS 3.-> docker02
+    pihole_slave -.DNS 3.-> centreon
+    
+    centreon -.monitors.-> pihole_master
+    centreon -.monitors.-> pihole_slave
+    centreon -.monitors.-> jellyfin
+    centreon -.monitors.-> docker01
+    centreon -.monitors.-> docker02
+    
+    style pihole_master fill:#2f855a,stroke:#38a169,stroke-width:3px,color:#fff
+    style pihole_slave fill:#2c5282,stroke:#3182ce,stroke-width:2px,color:#fff
+    
+    style Physical fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style Bridges fill:#1a365d,stroke:#2c5282,stroke-width:2px,color:#fff
+    style VMs fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#fff
+    style Internet fill:#742a2a,stroke:#9b2c2c,stroke-width:2px,color:#fff
+```
+
+
 
 ## Services: 
 
@@ -29,6 +107,9 @@ None of these services are publicly available. I access everything using tailsca
 | Host | Service | IP |
 |---|---|---|
 | pihole | pihole | 192.168.100.5 |
-| centreon-prod-v2 | Centreon Central | 192.168.100.7 |
-| microOS-Node00 | Cloudreve, syncthing & Nginx Proxy Manager (docker) | 192.168.100.8 |
+| pihole2 | pihole | 192.168.100.4 |
+| centreon-prod-v2 | Centreon Central (Monitoring server) | 192.168.100.7 |
 | jellyfin | Jellyfin Media Server | 192.168.100.100 |
+| docker-node01 | Nginx Proxy Manager, myapps (homarr), syncthing | 192.168.100.8 |
+| docker-node02 | Dev of node01, for testing | 192.168.100.11
+
