@@ -48,8 +48,8 @@ graph TB
         end
         
         subgraph VMs["Virtual Machines & Containers"]
-            pihole_master[Pi-hole Master<br/>192.168.100.5<br/>Primary DNS + DHCP <br/>Debian 13 VM]
-            pihole_slave[Pi-hole Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
+            technitium_dns[technitium Master<br/>192.168.100.5<br/>Primary DNS + DHCP <br/>Debian 13 VM]
+            technitium-slave[technitium Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
             centreon[Centreon-prod-v2<br/>Monitoring Server<br/>AlmaLinux 9 VM]
             jellyfin[Jellyfin<br/>192.168.100.100<br/>Media Server + Arr Stack<br/>Debian 13 VM]
             docker01[docker-node01<br/>Nginx Proxy Manager<br/>Reverse Proxy<br/>Debian 13 LXC]
@@ -60,8 +60,8 @@ graph TB
         eno1 -.VLAN.-> vlan1
         vlan1 --> vmbr1
         
-        vmbr0 --> pihole_master
-        vmbr0 --> pihole_slave
+        vmbr0 --> technitium-dns
+        vmbr0 --> technitium-slave
         vmbr0 --> centreon
         vmbr0 --> jellyfin
         vmbr0 --> docker01
@@ -72,25 +72,25 @@ graph TB
     
     docker01 -.reverse proxy.-> jellyfin
     
-    pihole_master -.DNS 1.-> pihole_slave
-    pihole_master -.DNS 1.-> jellyfin
-    pihole_master -.DNS 1.-> docker01
-    pihole_master -.DNS 1.-> docker02
-    pihole_master -.DNS 1.-> centreon
+    technitium-dns -.DNS 1.-> technitium-slave
+    technitium-dns -.DNS 1.-> jellyfin
+    technitium-dns -.DNS 1.-> docker01
+    technitium-dns -.DNS 1.-> docker02
+    technitium-dns -.DNS 1.-> centreon
     
-    pihole_slave -.DNS 3.-> jellyfin
-    pihole_slave -.DNS 3.-> docker01
-    pihole_slave -.DNS 3.-> docker02
-    pihole_slave -.DNS 3.-> centreon
+    technitium-slave -.DNS 3.-> jellyfin
+    technitium-slave -.DNS 3.-> docker01
+    technitium-slave -.DNS 3.-> docker02
+    technitium-slave -.DNS 3.-> centreon
     
-    centreon -.monitors.-> pihole_master
-    centreon -.monitors.-> pihole_slave
+    centreon -.monitors.-> technitium-dns
+    centreon -.monitors.-> technitium-slave
     centreon -.monitors.-> jellyfin
     centreon -.monitors.-> docker01
     centreon -.monitors.-> docker02
     
-    style pihole_master fill:#2f855a,stroke:#38a169,stroke-width:3px,color:#fff
-    style pihole_slave fill:#2c5282,stroke:#3182ce,stroke-width:2px,color:#fff
+    style technitium-dns fill:#2f855a,stroke:#38a169,stroke-width:3px,color:#fff
+    style technitium-slave fill:#2c5282,stroke:#3182ce,stroke-width:2px,color:#fff
     
     style Physical fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
     style Bridges fill:#1a365d,stroke:#2c5282,stroke-width:2px,color:#fff
@@ -106,8 +106,8 @@ None of these services are publicly available. I access everything using tailsca
 
 | Host | Service | IP |
 |---|---|---|
-| pihole | pihole | 192.168.100.5 |
-| pihole2 | pihole | 192.168.100.4 |
+| technitium-dns | technitium | 192.168.100.5 |
+| technitium-replica | technitium | 192.168.100.4 |
 | centreon-prod-v2 | Centreon Central (Monitoring server) | 192.168.100.7 |
 | jellyfin | Jellyfin Media Server | 192.168.100.100 |
 | docker-node01 | Nginx Proxy Manager, myapps (homarr), syncthing | 192.168.100.8 |
