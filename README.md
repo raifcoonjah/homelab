@@ -48,8 +48,8 @@ graph TB
         end
         
         subgraph VMs["Virtual Machines & Containers"]
-            technitium_dns[technitium Master<br/>192.168.100.5<br/>Primary DNS + DHCP <br/>Debian 13 VM]
-            technitium-slave[technitium Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
+            technitium_dns[Technitium Master<br/>192.168.100.5<br/>Primary DNS + DHCP<br/>Debian 13 VM]
+            technitium_slave[Technitium Slave<br/>192.168.100.4<br/>Secondary DNS<br/>Debian 13 VM]
             centreon[Centreon-prod-v2<br/>Monitoring Server<br/>AlmaLinux 9 VM]
             jellyfin[Jellyfin<br/>192.168.100.100<br/>Media Server + Arr Stack<br/>Debian 13 VM]
             docker01[docker-node01<br/>Nginx Proxy Manager<br/>Reverse Proxy<br/>Debian 13 LXC]
@@ -60,8 +60,8 @@ graph TB
         eno1 -.VLAN.-> vlan1
         vlan1 --> vmbr1
         
-        vmbr0 --> technitium-dns
-        vmbr0 --> technitium-slave
+        vmbr0 --> technitium_dns
+        vmbr0 --> technitium_slave
         vmbr0 --> centreon
         vmbr0 --> jellyfin
         vmbr0 --> docker01
@@ -72,26 +72,25 @@ graph TB
     
     docker01 -.reverse proxy.-> jellyfin
     
-    technitium-dns -.DNS 1.-> technitium-slave
-    technitium-dns -.DNS 1.-> jellyfin
-    technitium-dns -.DNS 1.-> docker01
-    technitium-dns -.DNS 1.-> docker02
-    technitium-dns -.DNS 1.-> centreon
+    technitium_dns -.DNS Primary.-> technitium_slave
+    technitium_dns -.DNS Primary.-> jellyfin
+    technitium_dns -.DNS Primary.-> docker01
+    technitium_dns -.DNS Primary.-> docker02
+    technitium_dns -.DNS Primary.-> centreon
     
-    technitium-slave -.DNS 3.-> jellyfin
-    technitium-slave -.DNS 3.-> docker01
-    technitium-slave -.DNS 3.-> docker02
-    technitium-slave -.DNS 3.-> centreon
+    technitium_slave -.DNS Secondary.-> jellyfin
+    technitium_slave -.DNS Secondary.-> docker01
+    technitium_slave -.DNS Secondary.-> docker02
+    technitium_slave -.DNS Secondary.-> centreon
     
-    centreon -.monitors.-> technitium-dns
-    centreon -.monitors.-> technitium-slave
+    centreon -.monitors.-> technitium_dns
+    centreon -.monitors.-> technitium_slave
     centreon -.monitors.-> jellyfin
     centreon -.monitors.-> docker01
     centreon -.monitors.-> docker02
     
-    style technitium-dns fill:#2f855a,stroke:#38a169,stroke-width:3px,color:#fff
-    style technitium-slave fill:#2c5282,stroke:#3182ce,stroke-width:2px,color:#fff
-    
+    style technitium_dns fill:#2f855a,stroke:#38a169,stroke-width:3px,color:#fff
+    style technitium_slave fill:#2c5282,stroke:#3182ce,stroke-width:2px,color:#fff
     style Physical fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
     style Bridges fill:#1a365d,stroke:#2c5282,stroke-width:2px,color:#fff
     style VMs fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#fff
