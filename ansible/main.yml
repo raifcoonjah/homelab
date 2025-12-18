@@ -23,11 +23,9 @@
     - role: centreon_monitoring
       tags: centreon_monitoring 
 # OPTIONAL:
-#    - role: syncthing
-#      tags: never, syncthing
     - role: docker
       tags: never, docker
     - role: backup_proxmox
       tags: never, backup_proxmox
     - role: unbound-pihole
-      tags: unbound-pihole
+      tags: never, unbound-pihole
