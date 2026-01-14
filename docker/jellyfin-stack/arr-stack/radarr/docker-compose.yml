@@ -4,7 +4,7 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     environment:
-      - PUID=0               # running as root
+      - PUID=0               # running as root temp
       - PGID=0
       - TZ=Indian/Mauritius
     volumes:
