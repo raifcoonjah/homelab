@@ -4,16 +4,22 @@ ForwardAgent yes
 User {{ ssh_master_user }}
 
 Host orion
-        Hostname orion
+    HostName 192.168.100.20
 
-Host proxy
-       Hostname proxy
+Host jellyfin
+    HostName 192.168.100.100
 
-Host pihole
-     Hostname pihole
+Host SUSE-Node01
+    HostName 192.168.100.10
 
-Host centron-prod
-     Hostname centreon-prod
+Host centreon-prod
+    HostName 192.168.100.7
 
-Host syncthing
-     Hostname syncthing
+Host technitium-master
+    HostName 192.168.100.5
+
+Host docker-node01
+    HostName 192.168.100.8
+
+Host docker-node02
+    HostName 192.168.100.11
